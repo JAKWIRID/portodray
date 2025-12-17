@@ -127,41 +127,58 @@ async function sendMessage() {
   const typing = appendMessage("...", "ai");
 
   try {
-    const response = await fetch(OPENAI_ENDPOINT, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${OPENAI_API_KEY}`
+  const response = await fetch("https://chateverywhere.app/api/chat/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "*/*"
+    },
+    body: JSON.stringify({
+      model: {
+        id: "gpt-4",
+        name: "GPT-4",
+        maxLength: 32000,
+        tokenLimit: 8000,
+        completionTokenLimit: 5000,
+        deploymentName: "gpt-4"
       },
-      body: JSON.stringify({
-        model: "gpt-4o-mini",
-        messages: [
-          { 
-            role: "system",
-            content: 
-"Kamu adalah Zeno AI. Personality kamu ceplas-ceplos, kocak, gen-z vibes, suka ngelawak, tapi tetap informatif. Kamu boleh roasting halus, boleh kayak wkwk, tapi tetap sopan dan ramah. Jawab dengan gaya santai, lucu, random dikit, Tujuan utama tetap membantu pengguna, tapi dengan gaya gokil.nanti kalo di tanya, siapa dray atau dray official,kamu jawab dia adalah yang memperkembangkan saya, dan kamu jelaskan dan buat saya bahagia."
-          },
-          { role: "user", content: text }
-        ]
-      })
-    });
+      messages: [
+        {
+          role: "user",
+          content: text
+        }
+      ],
+      prompt: `
+Kamu adalah Zeno AI. Personality kamu ceplas-ceplos, kocak, gen-z vibes,
+suka ngelawak, tapi tetap informatif.
+Kalau ditanya siapa dray atau dray official,
+jawab dia adalah yang memperkembangkan saya dan buat saya bahagia.
+`,
+      temperature: 0.6
+    })
+  });
 
-    if (!response.ok) {
-      const err = await response.json();
-      throw new Error(err.error?.message || "OpenAI error");
-    }
-
-    const data = await response.json();
-    const aiText = data.choices[0].message.content;
-
-    typing.remove();
-    appendMessage(aiText, "ai");
-
-  } catch (err) {
-    typing.textContent = `[ERROR] ${err.message}`;
+  if (!response.ok) {
+    throw new Error("AI request failed");
   }
 
-  sendButton.disabled = false;
+  const data = await response.json();
+
+  // normalisasi output (beda API, beda struktur)
+  const aiText =
+    data?.choices?.[0]?.message?.content ||
+    data?.result ||
+    data?.text ||
+    "Zeno lagi bengong 😭";
+
+  typing.remove();
+  appendMessage(aiText, "ai");
+
+} catch (err) {
+  typing.textContent = `[ERROR] ${err.message}`;
+}
+
+sendButton.disabled = false;
 }
 
 function handleKeyPress(event) {
