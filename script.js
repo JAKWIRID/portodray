@@ -325,3 +325,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const chat = document.getElementById("zeno-chat-wrapper");
   chat.style.display = "none";
 });
+
+
+    // Typing animation (loop)
+const warningText = "Versi lama mungkin sudah tidak bisa digunakan...";
+const warningElement = document.getElementById("typing-warning");
+
+let index = 0;
+
+function typeWarning() {
+  if (!warningElement) return;
+
+  if (index < warningText.length) {
+    warningElement.textContent += warningText.charAt(index);
+    index++;
+    setTimeout(typeWarning, 80);
+  } else {
+    setTimeout(() => {
+      warningElement.textContent = "";
+      index = 0;
+      typeWarning();
+    }, 2000); // jeda sebelum ulang
+  }
+}
+
+typeWarning();
