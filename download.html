@@ -231,6 +231,27 @@ nav {
     animation: none;
     opacity: 0;
 }    
+
+/* Warning text typing */
+.script-warning {
+    margin-top: 8px;
+    font-size: 13px;
+    font-style: italic;
+    color: rgba(170, 120, 255, 0.85);
+    letter-spacing: 0.4px;
+}
+
+/* Cursor */
+.script-warning::after {
+    content: "|";
+    margin-left: 4px;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0; }
+}    
 </style>
 </head>
 <div id="music-control" class="music-btn paused">
@@ -251,6 +272,9 @@ nav {
         </header>
 <div class="download-section">
     <h2>📦 List script</h2>
+    <p class="script-warning">
+  <span id="typing-warning"></span>
+</p>
     <div id="download-list" class="loading-text">
         Loading file...
     </div>
