@@ -165,8 +165,80 @@ nav {
     font-weight: 500;
     letter-spacing: 0.3px;
 }
+/* === MUSIC BUTTON === */
+.music-btn {
+    position: fixed;
+    right: 15px;
+    bottom: 90px;
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #7f5cff, #3b82f6);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(127, 92, 255, 0.6);
+    z-index: 9999;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.music-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.8);
+}
+
+/* icon */
+.music-btn .icon {
+    font-size: 20px;
+    position: absolute;
+}
+
+/* equalizer */
+.music-btn .bars {
+    display: flex;
+    gap: 2px;
+    position: absolute;
+    bottom: 12px;
+}
+
+.music-btn .bars span {
+    width: 3px;
+    height: 8px;
+    background: #fff;
+    border-radius: 2px;
+    animation: equalizer 1s infinite ease-in-out;
+    opacity: 0;
+}
+
+/* animasi bar */
+.music-btn.playing .bars span {
+    opacity: 1;
+}
+
+.music-btn.playing .bars span:nth-child(1) { animation-delay: 0s; }
+.music-btn.playing .bars span:nth-child(2) { animation-delay: 0.15s; }
+.music-btn.playing .bars span:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes equalizer {
+    0% { height: 6px; }
+    50% { height: 16px; }
+    100% { height: 6px; }
+}
+
+/* pause state */
+.music-btn.paused .bars span {
+    animation: none;
+    opacity: 0;
+}    
 </style>
 </head>
+<div id="music-control" class="music-btn paused">
+    <span class="icon">🎵</span>
+    <div class="bars">
+        <span></span><span></span><span></span>
+    </div>
+</div>    
 <body>
     <canvas id="particles"></canvas>
     <div class="container">
@@ -251,6 +323,31 @@ fetch(apiURL)
         <source src="https://files.catbox.moe/4z3t63.mp3"  type="audio/mpeg">
     </audio>
 
+  <script>
+const music = document.getElementById("bg-music");
+const btn = document.getElementById("music-control");
+
+music.volume = 0.5;
+
+// autoplay muted
+window.addEventListener("load", () => {
+    music.play().catch(() => {});
+});
+
+// toggle play
+btn.addEventListener("click", () => {
+    if (music.paused) {
+        music.muted = false;
+        music.play();
+        btn.classList.remove("paused");
+        btn.classList.add("playing");
+    } else {
+        music.pause();
+        btn.classList.remove("playing");
+        btn.classList.add("paused");
+    }
+});
+</script>      
     <script>
         const canvas = document.getElementById("particles");
         const ctx = canvas.getContext("2d");
