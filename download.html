@@ -652,26 +652,48 @@ document.getElementById("submitReview").addEventListener("click", async () => {
   loadReviews();
 });
 
+let reviewsData = [];
+let reviewIndex = 0;
+let reviewInterval = null;
+
 async function loadReviews() {
   const list = document.getElementById("reviewList");
-  list.innerHTML = "";
+  list.innerHTML = "⏳ Memuat ulasan...";
 
   const q = query(collection(db, "reviews"), orderBy("time", "desc"));
   const snap = await getDocs(q);
 
-  snap.forEach(doc => {
-    const d = doc.data();
-    list.innerHTML += `
-      <div class="review-item">
-        <div class="name">${d.username}</div>
-        <div class="rating">${"★".repeat(d.rating)}</div>
-        <div>${d.comment}</div>
-      </div>
-    `;
-  });
+  reviewsData = [];
+  snap.forEach(doc => reviewsData.push(doc.data()));
+
+  if (!reviewsData.length) {
+    list.innerHTML = "Belum ada ulasan.";
+    return;
+  }
+
+  reviewIndex = 0;
+  showReview();
+
+  if (reviewInterval) clearInterval(reviewInterval);
+
+  reviewInterval = setInterval(() => {
+    reviewIndex = (reviewIndex + 1) % reviewsData.length;
+    showReview();
+  }, 4000); // ⏱️ ganti tiap 4 detik
 }
 
-loadReviews();
+function showReview() {
+  const list = document.getElementById("reviewList");
+  const d = reviewsData[reviewIndex];
+
+  list.innerHTML = `
+    <div class="review-item">
+      <div class="name">${d.username}</div>
+      <div class="rating">${"★".repeat(d.rating)}</div>
+      <div>${d.comment}</div>
+    </div>
+  `;
+}
 </script>
        
 </script>     
