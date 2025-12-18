@@ -658,6 +658,11 @@ let reviewInterval = null;
 
 async function loadReviews() {
   const list = document.getElementById("reviewList");
+  if (!list) {
+    console.error("reviewList element tidak ditemukan");
+    return;
+  }
+
   list.innerHTML = "⏳ Memuat ulasan...";
 
   const q = query(collection(db, "reviews"), orderBy("time", "desc"));
@@ -679,7 +684,7 @@ async function loadReviews() {
   reviewInterval = setInterval(() => {
     reviewIndex = (reviewIndex + 1) % reviewsData.length;
     showReview();
-  }, 4000); // ⏱️ ganti tiap 4 detik
+  }, 4000);
 }
 
 function showReview() {
@@ -688,12 +693,15 @@ function showReview() {
 
   list.innerHTML = `
     <div class="review-item">
-      <div class="name">${d.username}</div>
-      <div class="rating">${"★".repeat(d.rating)}</div>
-      <div>${d.comment}</div>
+      <div class="name">${d.username || "Anonim"}</div>
+      <div class="rating">${"★".repeat(d.rating || 0)}</div>
+      <div>${d.comment || ""}</div>
     </div>
   `;
 }
+
+// ⬅️ INI YANG SERING LUPA
+loadReviews();
 </script>
        
 </script>     
