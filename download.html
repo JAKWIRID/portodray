@@ -347,7 +347,65 @@ nav {
     transform: translateY(0) scale(1);
   }
 }
-    
+
+
+  .review-item {
+  position: relative;
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(10,10,10,0.85);
+  overflow: hidden;
+}
+
+/* NEON BORDER */
+.review-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(
+    270deg,
+    #7f5cff,
+    #4a8bff,
+    #ff4fd8,
+    #7f5cff
+  );
+  background-size: 400% 400%;
+  animation: neonMove 4s linear infinite;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* glow luar */
+.review-item::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: inherit;
+  background: linear-gradient(
+    270deg,
+    #7f5cff,
+    #4a8bff,
+    #ff4fd8,
+    #7f5cff
+  );
+  background-size: 400% 400%;
+  animation: neonMove 7s linear infinite;
+  filter: blur(18px);
+  opacity: .55;
+  z-index: -1;
+}  
+
+  @keyframes neonMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}  
 </style>
 </head>
 
