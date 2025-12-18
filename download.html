@@ -29,13 +29,13 @@ body {
 }
 
 #particles {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background: linear-gradient(135deg, #000000 0%, #111111 100%);
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none; /* 🔥 INI PENTING, BIAR GA NGAMBIL KLIK */
+  background: linear-gradient(135deg, #000000 0%, #111111 100%);
 }
 
 .container {
@@ -322,15 +322,26 @@ nav {
 .review-item .rating {
   color: #ffd86b;
 }
+
+.review-section,
+.review-form,
+.stars,
+.review-form button,
+.review-form input,
+.review-form textarea {
+  position: relative;
+  z-index: 10;
+}    
 </style>
 </head>
-<div id="music-control" class="music-btn paused">
+
+<body>
+    <div id="music-control" class="music-btn paused">
     <span class="icon">🎵</span>
     <div class="bars">
         <span></span><span></span><span></span>
     </div>
 </div>    
-<body>
     <canvas id="particles"></canvas>
     <div class="container">
         <header>
@@ -572,6 +583,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   typeLoop();
 });
+   </script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
