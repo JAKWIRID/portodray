@@ -456,5 +456,30 @@ btn.addEventListener("click", () => {
             init();
         });
     </script>
+
+   <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const text = "Versi lama mungkin sudah tidak bisa digunakan...";
+  const el = document.getElementById("typing-warning");
+
+  let i = 0;
+
+  function typeLoop() {
+    if (i < text.length) {
+      el.textContent += text.charAt(i);
+      i++;
+      setTimeout(typeLoop, 80);
+    } else {
+      setTimeout(() => {
+        el.textContent = "";
+        i = 0;
+        typeLoop();
+      }, 2000);
+    }
+  }
+
+  typeLoop();
+});
+</script>     
 </body>
 </html>
