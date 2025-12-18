@@ -327,26 +327,29 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-    // Typing animation (loop)
-const warningText = "Versi lama mungkin sudah tidak bisa digunakan...";
-const warningElement = document.getElementById("typing-warning");
+document.addEventListener("DOMContentLoaded", () => {
 
-let index = 0;
+  const warningText = "Versi lama mungkin sudah tidak bisa digunakan...";
+  const warningElement = document.getElementById("typing-warning");
 
-function typeWarning() {
   if (!warningElement) return;
 
-  if (index < warningText.length) {
-    warningElement.textContent += warningText.charAt(index);
-    index++;
-    setTimeout(typeWarning, 80);
-  } else {
-    setTimeout(() => {
-      warningElement.textContent = "";
-      index = 0;
-      typeWarning();
-    }, 2000); // jeda sebelum ulang
-  }
-}
+  let index = 0;
 
-typeWarning();
+  function typeWarning() {
+    if (index < warningText.length) {
+      warningElement.textContent += warningText.charAt(index);
+      index++;
+      setTimeout(typeWarning, 80);
+    } else {
+      setTimeout(() => {
+        warningElement.textContent = "";
+        index = 0;
+        typeWarning();
+      }, 2000);
+    }
+  }
+
+  typeWarning();
+
+});
