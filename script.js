@@ -353,3 +353,49 @@ document.addEventListener("DOMContentLoaded", () => {
   typeWarning();
 
 });
+
+const music = document.getElementById("bg-music");
+const disk = document.querySelector(".music-disk");
+const panel = document.getElementById("musicPanel");
+const list = document.getElementById("musicList");
+
+const playlist = [
+  {
+    title: "Night Vibes",
+    artist: "Dray",
+    src: "https://files.catbox.moe/4z3t63.mp3",
+    thumb: "https://files.catbox.moe/5qq2bm.jpg"
+  },
+  {
+    title: "Cyber Dream",
+    artist: "Dray",
+    src: "https://files.catbox.moe/b3kwgp.mp3",
+    thumb: "https://files.catbox.moe/5qq2bm.jpg"
+  }
+];
+
+let current = 0;
+
+function loadSong(i) {
+  const song = playlist[i];
+  music.src = song.src;
+  document.getElementById("now-title").innerText = song.title;
+  document.getElementById("now-artist").innerText = song.artist;
+  document.getElementById("now-thumb").src = song.thumb;
+  document.getElementById("music-thumb").src = song.thumb;
+
+  music.muted = false;
+  music.play();
+  disk.classList.add("playing");
+}
+
+function togglePlaylist() {
+  panel.style.display = panel.style.display === "block" ? "none" : "block";
+}
+
+playlist.forEach((song, i) => {
+  const div = document.createElement("div");
+  div.innerText = "🎵 " + song.title;
+  div.onclick = () => loadSong(i);
+  list.appendChild(div);
+});
