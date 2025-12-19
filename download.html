@@ -505,7 +505,7 @@ fetch(apiURL)
   .catch(() => {
     setTimeout(() => {
       list.classList.remove("loading-text");
-      list.innerHTML = "❌ Gagal load file";
+      list.innerHTML = "❌ Gagal load file (Refresh kembali website)";
     }, MIN_LOADING_TIME);
   });
 </script>
