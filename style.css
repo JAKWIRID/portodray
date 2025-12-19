@@ -799,3 +799,10 @@ h2 {
 .music-list div:hover {
   background: rgba(255,255,255,.15);
 }
+
+#particles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none; /* 🔥 INI KUNCI */
+}
