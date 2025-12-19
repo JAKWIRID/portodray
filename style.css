@@ -718,3 +718,84 @@ h2 {
 
   border-top: 1px solid rgba(255,255,255,0.25); /* garis putih tipis */
   }
+
+/* === MUSIC WIDGET === */
+.music-widget {
+  position: fixed;
+  left: 15px;
+  top: 120px;
+  z-index: 9999;
+}
+
+/* Kaset / Disk */
+.music-disk {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(120,100,255,.8);
+}
+
+.music-disk img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Muter */
+.music-disk.playing {
+  animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Panel Playlist */
+.music-panel {
+  margin-top: 10px;
+  width: 220px;
+  background: rgba(0,0,0,.6);
+  backdrop-filter: blur(10px);
+  border-radius: 14px;
+  padding: 10px;
+  display: none;
+}
+
+/* Now Playing */
+.music-now {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.music-now img {
+  width: 45px;
+  height: 45px;
+  border-radius: 8px;
+}
+
+#now-title {
+  font-weight: bold;
+  font-size: 13px;
+}
+
+#now-artist {
+  font-size: 11px;
+  opacity: .7;
+}
+
+/* Playlist */
+.music-list div {
+  font-size: 12px;
+  padding: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.music-list div:hover {
+  background: rgba(255,255,255,.15);
+}
