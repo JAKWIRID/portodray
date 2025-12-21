@@ -1,84 +1,58 @@
-/* ===============================
-   ROOT THEME
-================================ */
-:root {
-  --neon-blue: #00f0ff;
-  --neon-purple: #9d4edd;
-  --bg-dark: #07080d;
-  --bg-glass: rgba(255, 255, 255, 0.04);
-  --text-main: #eaeaff;
-  --text-muted: #b8b8d6;
-  --border-radius: 16px;
-  --transition: 0.35s ease;
-}
-
-/* ===============================
-   RESET
-================================ */
+/* DARY BAKEKEOM KAKEKOAMDN */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: 'Poppins', 'Inter', sans-serif;
-  background: radial-gradient(circle at top, #0b0f2a, #05060d 70%);
-  color: var(--text-main);
-  overflow-x: hidden;
-  position: relative;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #00FFFF 0%, #00BFFF 100%);
+    color: #fff;
+    line-height: 1.6;
+    overflow-x: hidden;
+    transition: background 0.3s ease;
 }
 
-/* ===============================
-   LOTUS FALLING BACKGROUND
-================================ */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M30 5 C40 20 55 30 30 55 C5 30 20 20 30 5 Z' fill='rgba(157,78,221,0.15)'/%3E%3C/svg%3E");
-  animation: lotusFall 40s linear infinite;
-  opacity: 0.35;
-  z-index: -2;
+body.dark {
+    background: linear-gradient(135deg, #001122 0%, #003366 100%);
+    color: #e0e0e0;
 }
 
-@keyframes lotusFall {
-  from { background-position: 0 -1000px; }
-  to { background-position: 0 1000px; }
-}
-
-/* ===============================
-   LOADING SCREEN (LOTUS BLOOM)
-================================ */
+/* Loading Screen */
 .loading-screen {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle, #0d0f30, #05060d);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #00FFFF 0%, #00BFFF 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: fadeOut 2s ease-in-out 3s forwards;
+}
+
+.loader {
+    text-align: center;
 }
 
 .lotus-loader {
-  width: 90px;
-  height: 90px;
-  position: relative;
-  animation: rotateLotus 6s linear infinite;
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
 }
 
 .petal {
-  position: absolute;
-  width: 50%;
-  height: 50%;
-  background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
-  border-radius: 50% 50% 0 50%;
-  filter: drop-shadow(0 0 12px var(--neon-purple));
+    position: absolute;
+    width: 20px;
+    height: 40px;
+    background: linear-gradient(45deg, #00FFFF, #00BFFF);
+    border-radius: 50% 50% 0 0;
+    transform-origin: bottom center;
+    animation: lotusBloom 3s ease-in-out infinite;
 }
 
 .petal:nth-child(1) { transform: rotate(0deg); }
@@ -88,193 +62,170 @@ body::before {
 .petal:nth-child(5) { transform: rotate(240deg); }
 .petal:nth-child(6) { transform: rotate(300deg); }
 
-@keyframes rotateLotus {
-  0% { transform: rotate(0deg) scale(1); }
-  50% { transform: rotate(180deg) scale(1.05); }
-  100% { transform: rotate(360deg) scale(1); }
+.loader p {
+    font-size: 1.2rem;
+    color: #fff;
 }
 
-/* ===============================
-   HEADER
-================================ */
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 32px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
 
-.logo {
-  font-size: 2.4rem;
-  font-weight: 700;
-  background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.logo-container h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #00FFFF, #00BFFF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .tagline {
-  font-size: 0.9rem;
-  color: var(--text-muted);
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
 }
 
-/* ===============================
-   HERO
-================================ */
+.theme-toggle button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.theme-toggle button:hover {
+    color: #00FFFF;
+}
+
+/* Hero Section */
 .hero {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 40px;
-  padding: 80px 20px;
-  text-align: center;
+    display: flex;
+    align-items: center;
+    padding: 50px 0;
+    gap: 50px;
+}
+
+.hero-content {
+    flex: 1;
 }
 
 .hero-title {
-  font-size: 2.2rem;
-  margin-bottom: 16px;
+    font-size: 3rem;
+    margin-bottom: 20px;
+    background: linear-gradient(45deg, #00FFFF, #00BFFF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .hero-text {
-  max-width: 680px;
-  margin: auto;
-  color: var(--text-muted);
+    font-size: 1.2rem;
+    margin-bottom: 30px;
 }
 
-/* ===============================
-   NEON BUTTON LOOP
-================================ */
-.btn,
-.card-btn,
-.btn-save,
-.btn-cancel,
-.btn-simulate {
-  position: relative;
-  padding: 12px 22px;
-  border-radius: 999px;
-  background: transparent;
-  color: var(--text-main);
-  border: 2px solid transparent;
-  cursor: pointer;
-  overflow: hidden;
-  transition: var(--transition);
+.hero-buttons .btn {
+    display: inline-block;
+    padding: 12px 24px;
+    margin-right: 15px;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: all 0.3s;
 }
 
-.btn::before,
-.card-btn::before {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  border-radius: inherit;
-  background: linear-gradient(
-    270deg,
-    var(--neon-blue),
-    var(--neon-purple),
-    var(--neon-blue)
-  );
-  background-size: 400% 400%;
-  animation: neonLoop 4s linear infinite;
-  z-index: -1;
+.btn-primary {
+    background: linear-gradient(45deg, #00FFFF, #00BFFF);
+    color: #000;
 }
 
-@keyframes neonLoop {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid #00FFFF;
 }
 
-/* ===============================
-   NAVIGATION CARDS
-================================ */
+.btn:hover {
+    transform: scale(1.05);
+}
+
+/* Navigation Cards */
 .navigation-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 28px;
-  padding: 40px 20px;
+    display: flex;
+    gap: 20px;
+    padding: 50px 0;
+    justify-content: center;
 }
 
 .card {
-  background: var(--bg-glass);
-  backdrop-filter: blur(14px);
-  border-radius: var(--border-radius);
-  padding: 26px;
-  text-align: center;
-  transition: var(--transition);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    flex: 1;
+    max-width: 300px;
 }
 
 .card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 0 35px rgba(157, 78, 221, 0.25);
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 191, 255, 0.3);
 }
 
 .card-icon {
-  font-size: 2.2rem;
-  margin-bottom: 14px;
-  color: var(--neon-blue);
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: #00FFFF;
 }
 
-/* ===============================
-   SPOTIFY STYLE PLAYLIST (NAV)
-================================ */
-.playlist {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 20px;
+.card-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
 }
 
-.playlist-item {
-  background: rgba(0,0,0,0.5);
-  border-radius: 14px;
-  padding: 14px;
-  transition: var(--transition);
+.card-desc {
+    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.8);
 }
 
-.playlist-item:hover {
-  background: rgba(157,78,221,0.2);
-  transform: scale(1.05);
+.card-btn {
+    background: linear-gradient(45deg, #00FFFF, #00BFFF);
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
 }
 
-.playlist-item img {
-  width: 100%;
-  border-radius: 12px;
+.card-btn:hover {
+    transform: scale(1.1);
 }
 
-.playlist-title {
-  margin-top: 10px;
-  font-size: 0.9rem;
+/* About Section */
+.about-section {
+    padding: 50px 0;
+    text-align: center;
 }
 
-/* ===============================
-   MODAL
-================================ */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+.section-title {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    background: linear-gradient(45deg, #00FFFF, #00BFFF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.modal-container {
-  background: #0b0f2a;
-  border-radius: 18px;
-  width: 90%;
-  max-width: 520px;
-  padding: 24px;
-  animation: modalPop 0.4s ease;
-}
-
-@keyframes modalPop {
-  from { transform: scale(0.85); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-/* ===============================
-   FOOTER
-================================ */
-.footer {
-  text-align: center;
-  padding: 40px 20px;
-  font-size: 0.85rem;
-  color: var(--text-muted);
-}
+.about-content {
+    display: flex;
+    gap: 50
