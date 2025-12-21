@@ -1,183 +1,206 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dray Official</title>
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dray Official | Portfolio</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
-
 <body>
-  <canvas id="particles"></canvas>
-
-  <div class="container">
-
-    <header>
-      <button class="music-control" onclick="toggleMusic()"> 🎵 Music</button>
-
-      <img src="https://files.catbox.moe/5qq2bm.jpg" alt="Foto Profil" class="profile-pic">
-
-      <h1>
-        <span id="profile-name" class="typewriter-text">Dray Official</span>
-      </h1>
-
-      <p id="profile-status" class="status">
-        hello everyone.
-      </p>
-
-      <p id="profile-bio" class="bio"
-></p>Crafting smart AI-powered scripts and elegant web applications. Passionate about automation, efficiency, and building solutions that actually work.
-       
-
-      </p>
-
-      <nav>
-        <a href="index.html" class="menu-button active">Profile</a>
-        <a href="#donation-section" class="menu-button" onclick="scrollToSection(event, 'donation-section')">Donasi </a>
-        <a href="download.html" class="menu-button">Download
-        Script</a>
-      </nav>
-    </header>
-
-    <section>
-      <h2><i class="fas fa-user-astronaut"></i> About Me</h2>
-      <p id="about-text">
-        Hello, my name is Dray, I am an AI and Web Developer with a strong focus on AI scripting, automation, and modern web technologies. I create smart, efficient, and scalable solutions designed to solve real-world problems. With a passion for clean architecture and performance optimization, I aim to build digital products that are both powerful and maintainable.
-      </p>
-    </section>
-
-<section>
-  <h2><i class="fas fa-brain"></i> Skill</h2>
-
-  <div class="skills-carousel">
-    <div class="skills-track">
-      <div class="skill-box"><i class="fab fa-html5"></i><p>HTML & CSS</p></div>
-      <div class="skill-box"><i class="fab fa-js-square"></i><p>JavaScript</p></div>
-      <div class="skill-box"><i class="fas fa-shield-alt"></i><p>Cyber Defense</p></div>
-      <div class="skill-box"><i class="fas fa-terminal"></i><p>Command Line</p></div>
-      <div class="skill-box"><i class="fas fa-bug"></i><p>Debugging</p></div>
-      <div class="skill-box"><i class="fas fa-laptop-code"></i><p>Responsive Design</p></div>
-    </div>
-  </div>
-</section>
-
-    <section>
-      <h2><i class="fas fa-rocket"></i> My Dreams</h2>
-      <p id="dream-text">
-        My dream is to grow as a professional AI Script and Web Developer who builds smart, efficient, and impactful digital solutions. I want to combine artificial intelligence, automation, and modern web technologies to solve real-world problems and create user-friendly applications. By continuously learning and improving my skills, I aim to develop innovative systems, write clean and scalable code, and contribute meaningful value through technology.
-      </p>
-    </section>
-
-    <section id="donation-section">
-      <h2><i class="fas fa-hand-holding-heart"></i> Support DrayXD</h2>
-      <p>
-        Thank you for your support! Even the smallest contribution helps me continue improving my projects and growing my coding skills. You can donate through the QRIS below.
-
-      </p>
-
-      <div class="qris-container">
-        <img src="https://files.catbox.moe/4zx556.jpeg" alt="QRIS Placeholder" class="qris-image">
-        <p class="qris-info">Scan QR di atas untuk berdonasi.</p>
-
-        <div class="contact-button-trigger qris-contact-info" onclick="openContactModal('qris_info')">
-          <i class="fas fa-info-circle"></i>
-          <p>klik disini jika qr bermasalah</p>
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="loader">
+            <div class="lotus-loader">
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+            </div>
+            <p>Loading DrayOfficial...</p>
         </div>
-      </div>
-    </section>
-
-<!-- Floating Button -->
-<div id="zeno-fab" onclick="toggleZenoChat()">
-  🤖
-</div>
-
-<!-- Floating Chat -->
-<div id="zeno-chat-wrapper">
-
-  <!-- HTML CHAT LAMA KAMU (TIDAK DIUBAH) -->
-  <section id="ai-chat-section">
-    <h2><i class="fas fa-robot"></i> Zeno-AI</h2>
-
-    <div id="chatbot-container">
-      <div id="chat-messages">
-        <div class="message ai-message">
-          Hai Zenovers, Ada yg bisa zeno bantu?..
-        </div>
-      </div>
-
-      <div class="input-area">
-        <input type="text" id="user-input"
-          placeholder="Ketik pesan Anda..."
-          onkeydown="handleKeyPress(event)">
-        <button id="send-button" onclick="sendMessage()">Kirim</button>
-      </div>
-    </div>
-  </section>
-
-</div>
-
-    <section>
-      <h2><i class="fas fa-handshake"></i> Hubungi Saya</h2>
-
-      <div class="contact-grid">
-        <div class="contact-button-trigger" onclick="openContactModal('email')">
-          <i class="fas fa-envelope"></i>
-          <p>Kirim Email</p>
-        </div>
-
-        <div class="contact-button-trigger" onclick="openContactModal('whatsapp')">
-          <i class="fab fa-whatsapp"></i>
-          <p>WhatsApp Chat</p>
-        </div>
-
-        <div class="contact-button-trigger" onclick="openContactModal('linkedin')">
-          <i class="fab fa-linkedin"></i>
-          <p>LinkedIn / Link</p>
-        </div>
-      </div>
-    </section>
-
-  </div>
-
-  <div id="contactModal" class="modal">
-    <div class="modal-content">
-      <span class="close-btn" onclick="closeContactModal()">&times;</span>
-      <h3 id="modal-title"></h3>
-      <div id="modal-content-details"></div>
-    </div>
-  </div>
-
-  <audio id="bg-music" autoplay loop muted>
-    <source src="https://files.catbox.moe/4z3t63.mp3" type="audio/mpeg">
-  </audio>
-
-  
-<!-- 🎧 Floating Music Player -->
-<div class="music-widget">
-
-  <div class="music-disk" onclick="togglePlaylist()">
-    <img id="music-thumb" src="https://files.catbox.moe/5qq2bm.jpg">
-  </div>
-
-  <div class="music-panel" id="musicPanel">
-    <div class="music-now">
-      <img id="now-thumb" src="">
-      <div>
-        <div id="now-title">Judul Lagu</div>
-        <div id="now-artist">Dray</div>
-      </div>
     </div>
 
-    <div class="music-list" id="musicList"></div>
-  </div>
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-container">
+                <h1 class="logo">DrayOfiicial</h1>
+                <p class="tagline">Clean Code • Creative Design</p>
+            </div>
+            <div class="theme-toggle">
+                <button id="themeBtn" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </header>
 
-</div>
-  <script src="script.js"></script>
-<footer class="site-footer">
-  © DrayXD Official — 2025
-</footer>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h2 class="hero-title">Hello Everyone, Welcome</h2>
+                <p class="hero-text">
+                    I prefer clean and well-organized designs. For me, a layout that feels light, calm, and easy to understand is far more meaningful than something overly complicated.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#profile" class="btn btn-primary">
+                        <i class="fas fa-user"></i> My Profile
+                    </a>
+                    <a href="playlist.html" class="btn btn-secondary">
+                        <i class="fas fa-music"></i> Cyber Playlist
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="code-visual">
+                    <div class="code-line"></div>
+                    <div class="code-line"></div>
+                    <div class="code-line"></div>
+                    <div class="floating-element"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation Cards -->
+        <section class="navigation-cards">
+            <div class="card" id="profileCard">
+                <div class="card-icon">
+                    <i class="fas fa-id-card"></i>
+                </div>
+                <h3 class="card-title">MY PROFILE</h3>
+                <p class="card-desc">View my bio, skills & experience</p>
+                <button class="card-btn" onclick="openProfileModal()">Open</button>
+            </div>
+
+            <div class="card" id="coffesupCard">
+                <div class="card-icon">
+                    <i class="fas fa-coffee"></i>
+                </div>
+                <h3 class="card-title">COFFESUP</h3>
+                <p class="card-desc">Support my work with coffee</p>
+                <button class="card-btn" onclick="openQRModal()">Show QRIS</button>
+            </div>
+
+            <div class="card" id="scriptbuildCard">
+                <div class="card-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3 class="card-title">SCRIPTBUILD</h3>
+                <p class="card-desc">Access my coding scripts</p>
+                <a href="https://github.com" target="_blank" class="card-btn">Visit</a>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about-section" id="about">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p id="profileText">
+                        Hello, my name is Drayy, I'm a student focused on programming and web development. I'm interested in creating fast, responsive, and user-friendly websites. I'm learning HTML, CSS, and JavaScript to create attractive and functional displays. My goal is to become a professional developer capable of creating digital solutions that benefit many people.
+                    </p>
+                    <div class="skills">
+                        <span class="skill-tag">HTML5</span>
+                        <span class="skill-tag">CSS3</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">Web Design</span>
+                        <span class="skill-tag">Responsive UI</span>
+                    </div>
+                </div>
+                <div class="about-edit">
+                    <button class="edit-btn" onclick="enableProfileEdit()">
+                        <i class="fas fa-edit"></i> Edit Profile Text
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 Dray Official. All rights reserved.</p>
+            <p class="footer-sub">Built with precision and clean code</p>
+        </footer>
+    </div>
+
+    <!-- QRIS Modal -->
+    <div class="modal-overlay" id="qrModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>Scan QRIS for Coffesup</h3>
+                <button class="modal-close" onclick="closeQRModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="qr-container">
+                    <div class="qr-code">
+                        <!-- QR Code Placeholder -->
+                        <div class="qr-placeholder">
+                            <div class="qr-grid">
+                                <!-- QR pattern akan digenerate oleh JavaScript -->
+                            </div>
+                            <div class="scan-animation">
+                                <div class="scan-line"></div>
+                            </div>
+                        </div>
+                        <p class="qr-instruction">Scan QR code above to support</p>
+                    </div>
+                    <div class="qr-details">
+                        <h4>Payment Details</h4>
+                        <ul>
+                            <li><strong>Bank:</strong> All Indonesian Banks</li>
+                            <li><strong>Type:</strong> QRIS Standard</li>
+                            <li><strong>Amount:</strong> Custom</li>
+                            <li><strong>Note:</strong> Add "Coffesup" in message</li>
+                        </ul>
+                        <button class="btn-simulate" onclick="simulateScan()">
+                            <i class="fas fa-qrcode"></i> Simulate Scan
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal-container profile-modal">
+            <div class="modal-header">
+                <h3>My Profile Settings</h3>
+                <button class="modal-close" onclick="closeProfileModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="profile-form">
+                    <div class="form-group">
+                        <label for="profileName">Your Name</label>
+                        <input type="text" id="profileName" value="Dray">
+                    </div>
+                    <div class="form-group">
+                        <label for="profileTitle">Professional Title</label>
+                        <input type="text" id="profileTitle" value="Web Developer & Student">
+                    </div>
+                    <div class="form-group">
+                        <label for="profileBio">Bio Description</label>
+                        <textarea id="profileBio" rows="6">Hello, my name is Dray, I'm a student focused on programming and web development. I'm interested in creating fast, responsive, and user-friendly websites. I'm learning HTML, CSS, and JavaScript to create attractive and functional displays. My goal is to become a professional developer capable of creating digital solutions that benefit many people.</textarea>
+                    </div>
+                    <div class="form-buttons">
+                        <button class="btn-save" onclick="saveProfile()">Save Changes</button>
+                        <button class="btn-cancel" onclick="closeProfileModal()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio for QR Scan -->
+    <audio id="qrSound" preload="auto">
+        <source src="assets/sounds/qr-scan.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script src="scripts/main.js"></script>
+    <script src="scripts/qr-modal.js"></script>
 </body>
 </html>
