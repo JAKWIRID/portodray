@@ -464,15 +464,31 @@ const list = document.getElementById("download-list");
 const MIN_LOADING_TIME = 1500; // ⏳ milidetik (1.8 detik)
 
 const startTime = Date.now();
+async function loadDownloadCount(filename) {
+  const ref = doc(db, "downloads", filename);
+  const snap = await getDoc(ref);
 
-   function incrementDownload(key, el) {
-  let current = parseInt(localStorage.getItem(key) || 0);
-  current++;
-  localStorage.setItem(key, current);
+  let count = 0;
 
-  const meta = el.parentElement.querySelector(".download-meta");
-  if (meta) meta.textContent = `${current} downloader`;
-} 
+  if (snap.exists()) {
+    count = snap.data().count || 0;
+  } else {
+    await setDoc(ref, { count: 0 });
+  }
+
+  const el = document.getElementById(`count-${filename}`);
+  if (el) el.textContent = `${count} downloader`;
+}
+    
+   async function increaseDownload(filename) {
+  const ref = doc(db, "downloads", filename);
+
+  await updateDoc(ref, {
+    count: increment(1)
+  });
+
+  loadDownloadCount(filename);
+}
 fetch(apiURL)
   .then(res => res.json())
   .then(files => {
@@ -504,26 +520,24 @@ fetch(apiURL)
         div.style.borderRadius = "12px";
 
         const key = `download_${file.name}`;
-let count = localStorage.getItem(key) || Math.floor(Math.random() * 900 + 100);
-
 div.innerHTML = `
   <div>
     <span>📂 ${file.name}</span>
-    <div class="download-meta">
-      ${count} downloader
+    <div class="download-meta" id="count-${file.name}">
+      loading...
     </div>
   </div>
 
   <a class="download-link"
      href="${rawBase}${file.name}"
      target="_blank"
-     download
-     onclick="incrementDownload('${key}', this)">
+     onclick="increaseDownload('${file.name}')">
      ⬇ Download
   </a>
 `;
 
         list.appendChild(div);
+         loadDownloadCount(file.name); 
       });
     }, delay);
   })
