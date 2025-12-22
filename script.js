@@ -326,3 +326,17 @@ document.addEventListener("DOMContentLoaded", () => {
   chat.style.display = "none";
 });
 
+function playMusic(index, el) {
+  // hapus active dari semua
+  document.querySelectorAll(".playlist-item").forEach(item => {
+    item.classList.remove("active");
+  });
+
+  // aktifkan yg diklik
+  el.classList.add("active");
+
+  // lanjutkan logic audio kamu di sini
+  // audio.src = playlist[index].src
+  // audio.play()
+}
+
