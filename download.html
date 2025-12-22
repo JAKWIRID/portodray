@@ -541,24 +541,31 @@ div.innerHTML = `
     </div>
   </div>
 
-            <button class="download-link">
-            ⬇ Download
-          </button>
+            <button
+  class="download-link"
+  type="button"
+>
+  ⬇ Download
+</button>
 `;
-btn.addEventListener("click", async () => {
-  btn.textContent = "⏳ Downloading...";
-  btn.style.pointerEvents = "none";
+btn.addEventListener("click", async (e) => {
+  const target = e.currentTarget;
+  const filename = file.name;
+
+  // 🔥 DOWNLOAD HARUS LANGSUNG (ANTI BLOCK)
+  window.open(`${rawBase}${filename}`, "_blank");
+
+  target.textContent = "⏳ Downloading...";
+  target.style.pointerEvents = "none";
 
   try {
-    await increaseDownload(file.name);
+    await increaseDownload(filename);
   } catch (e) {
     console.error("Gagal update counter", e);
   }
 
-  window.open(`${rawBase}${file.name}`, "_blank");
-
-  btn.textContent = "⬇ Download";
-  btn.style.pointerEvents = "auto";
+  target.textContent = "⬇ Download";
+  target.style.pointerEvents = "auto";
 });
           
         list.appendChild(div);
