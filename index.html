@@ -16,7 +16,7 @@
   <div class="container">
 
     <header>
-      <button class="music-control" onclick="toggleMusic()"> 🎵 Music</button>
+
 
       <img src="https://files.catbox.moe/5qq2bm.jpg" alt="Foto Profil" class="profile-pic">
 
@@ -153,8 +153,166 @@
   <audio id="bg-music" autoplay loop muted>
     <source src="https://files.catbox.moe/4z3t63.mp3" type="audio/mpeg">
   </audio>
+<!-- MUSIC FLOAT BUTTON -->
+<div id="music-fab" onclick="toggleMusicPanel()">
+  <img src="https://files.catbox.moe/g90370.jpg"class="disc" alt="music disc">
+</div>
 
+<!-- MUSIC PANEL -->
+<div id="music-panel">
+  <div class="music-header">
+    <span>🎧 Playlist</span>
+    <div id="playlist-panel" class="playlist-panel hidden">
+  <button class="playlist-close" onclick="closePlaylist()">✕</button>
+  ...
+</div>
+  </div>
+
+  <div class="music-now">
+    <img id="music-thumb" src="https://files.catbox.moe/5qq2bm.jpg">
+    <div>
+      <div id="music-title">Staying</div>
+      <div id="music-artist">Lizzy McAlpine</div>
+    </div>
+  </div>
+
+  <div class="music-list">
+    <div class="playlist-item" onclick="playMusic(0, this)">
+  <span>🎵 Ngga dulu</span>
+</div>
+
+<div class="playlist-item" onclick="playMusic(1, this)">
+  <span>🎵 Aishiteru 2</span>
+</div>
+    <div class="playlist-item" onclick="playMusic(2, this)">
+  <span>🎵 So Asu</span>
+</div>
+    <div class="playlist-item" onclick="playMusic(3, this)">
+  <span>🎵 Sedia Aku Sebelum Hujan</span>
+</div>
+    <div class="playlist-item" onclick="playMusic(4, this)">
+  <span>🎵 Ngertenono Ati</span>
+</div>
+<div class="music-controls">
+  <button onclick="prevMusic()">⏮</button>
+
+  <button id="playBtn" onclick="togglePlay()">▶</button>
+
+  <button onclick="nextMusic()">⏭</button>
+</div>
+</div>
+
+<audio id="music-player"></audio>
   <script src="script.js"></script>
+<script>
+const tracks = [
+  {
+    title: "Ngga Dulu",
+    artist: "Akbar Chalay, CiloqCiliq",
+    src: "https://files.catbox.moe/4z3t63.mp3",
+    thumb: "https://files.catbox.moe/2piuf0.jpg"
+  },
+  {
+    title: "Aishiteru 2",
+    artist: "Zivilia",
+    src: "https://files.catbox.moe/b3kwgp.mp3",
+    thumb: "https://files.catbox.moe/nkcmci.jpg"
+  },
+  {
+    title: "So Asu",
+    artist: "Naykilla",
+    src: "https://files.catbox.moe/pz4sn7.mp3",
+    thumb: "https://files.catbox.moe/4ii1z8.jpg"
+  },
+    {
+    title: "Sedia Aku Sebelum Hujan",
+    artist: "Idgitaf",
+    src: "https://files.catbox.moe/9t1mfq.mp3",
+    thumb: "https://files.catbox.moe/drtnjv.jpg"
+  },
+      {
+    title: "Ngertenono Ati",
+    artist: "NDX A.K.A",
+    src: "https://files.catbox.moe/z7vclz.mp3",
+    thumb: "https://files.catbox.moe/ypcz0c.jpg"
+  }
+];
+
+let index = 0;
+const audio = document.getElementById("music-player");
+const fab = document.getElementById("music-fab");
+const playBtn = document.getElementById("playBtn");
+
+function toggleMusicPanel() {
+  const panel = document.getElementById("music-panel");
+  panel.style.display = panel.style.display === "block" ? "none" : "block";
+}
+
+function loadTrack(i) {
+  index = i;
+  audio.src = tracks[i].src;
+  document.getElementById("music-title").innerText = tracks[i].title;
+  document.getElementById("music-artist").innerText = tracks[i].artist;
+  document.getElementById("music-thumb").src = tracks[i].thumb;
+}
+
+function togglePlay() {
+  if (audio.paused) {
+    audio.play();
+  } else {
+    audio.pause();
+  }
+}
+
+/* === EVENT LISTENER BIAR SINKRON === */
+audio.addEventListener("play", () => {
+  playBtn.innerText = "⦉⦊";
+  fab.classList.add("playing");
+});
+
+audio.addEventListener("pause", () => {
+  playBtn.innerText = "▶";
+  fab.classList.remove("playing");
+});
+
+function playMusic(i, el) {
+  loadTrack(i);
+  audio.play();
+
+  // hapus neon dari semua item
+  document.querySelectorAll(".playlist-item")
+    .forEach(item => item.classList.remove("active"));
+
+  // kasih neon ke yg diklik
+  if (el) el.classList.add("active");
+}
+
+function nextMusic() {
+  playMusic((index + 1) % tracks.length);
+}
+
+function prevMusic() {
+  playMusic((index - 1 + tracks.length) % tracks.length);
+}
+
+/* auto next kalau lagu habis */
+audio.addEventListener("ended", nextMusic);
+
+loadTrack(0);
+</script>
+<script>
+function openPlaylist() {
+  document.getElementById("playlist-panel")
+    .classList.add("active");
+}
+
+function closePlaylist() {
+  document.getElementById("playlist-panel")
+    .classList.remove("active");
+}
+
+
+</script>
 
 </body>
 </html>
