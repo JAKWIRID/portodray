@@ -1051,3 +1051,32 @@ a:focus {
   outline: none;
   box-shadow: none;
 }
+
+header:active *,
+section:active *,
+.project-card:active *,
+.skill-box:active *,
+.contact-button-trigger:active * {
+  animation: none !important;
+}
+
+header:active,
+section:active,
+.project-card:active,
+.skill-box:active,
+.contact-button-trigger:active,
+.modal-content:active,
+#chatbot-container:active {
+  --neon-gradient: linear-gradient(
+    135deg,
+    #3b82f6,
+    #8b5cf6
+  ) !important;
+}
+
+header:active .profile-pic {
+  animation: none !important;
+  box-shadow:
+    0 0 16px rgba(139,92,246,.9),
+    0 0 32px rgba(139,92,246,.5) !important;
+}
