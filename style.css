@@ -1077,3 +1077,26 @@ header:active .profile-pic {
     0 0 16px rgba(139,92,246,.9),
     0 0 32px rgba(139,92,246,.5) !important;
 }
+
+/* ===== contac ===== */  
+.contact{  
+  display:flex;  
+  flex-direction:column;  
+  gap:16px;  
+}  
+.btn{  
+  padding:14px;  
+  border-radius:14px;  
+  display:flex;  
+  justify-content:center;  
+  align-items:center;  
+  font-weight:600;  
+  color:#fff;  
+  text-decoration:none;  
+  transition:.3s;  
+}  
+.btn:hover{transform:scale(1.05)}  
+.tele{background:linear-gradient(135deg,#4466ff,#2c3fff);box-shadow:0 0 22px #4466ffaa}  
+.nowa{background:linear-gradient(135deg,#1ddf7c,#0ea960);box-shadow:0 0 22px #25d366aa}  
+.wa{background:linear-gradient(135deg,#1ddf7c,#0ea960);box-shadow:0 0 22px #25d366aa}  
+.yt{background:linear-gradient(135deg,#ff3b3b,#c70000);box-shadow:0 0 22px #ff0000aa}
