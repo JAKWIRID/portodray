@@ -502,8 +502,12 @@ async function loadDownloadCount(filename) {
 
 async function increaseDownload(filename) {
   const ref = doc(db, "downloads", filename);
-  await updateDoc(ref, { count: increment(1) });
-  loadDownloadCount(filename);
+
+  await setDoc(
+    ref,
+    { count: increment(1) },
+    { merge: true }
+  );
 }
 fetch(apiURL)
   .then(res => res.json())
