@@ -945,3 +945,18 @@ h2 {
     background: linear-gradient(90deg, #7c7cff, #00e5ff);
   }
 }
+
+#music-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #e8faff; /* putih kebiruan */
+  line-height: 1.2;
+}
+
+#music-artist {
+  font-size: 11px;               /* lebih kecil */
+  font-weight: 400;
+  color: rgba(200, 200, 200, .65); /* abu-abu soft */
+  margin-top: 2px;
+  letter-spacing: .3px;
+}
