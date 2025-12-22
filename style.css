@@ -1015,3 +1015,39 @@ h2 {
   margin-top: 2px;
   letter-spacing: .3px;
 }
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+header:active,
+section:active,
+.project-card:active,
+.skill-box:active,
+.contact-button-trigger:active,
+.modal-content:active,
+#chatbot-container:active {
+  background-image:
+    linear-gradient(rgba(0,0,0,0.88), rgba(0,0,0,0.88)) !important;
+  border-color: #8b5cf6 !important; /* UNGU */
+  box-shadow:
+    0 0 12px rgba(139, 92, 246, 0.6),
+    0 0 28px rgba(139, 92, 246, 0.4) !important;
+}
+
+.menu-button:active,
+.music-control:active,
+#send-button:active,
+.modal-content a:active {
+  background: #0b0b0b !important;
+  color: #fff !important;
+  border: 1px solid #8b5cf6 !important;
+  box-shadow:
+    0 0 10px rgba(139, 92, 246, 0.7),
+    0 0 22px rgba(139, 92, 246, 0.4) !important;
+  transform: scale(0.97);
+}
+
+button:focus,
+a:focus {
+  outline: none;
+  box-shadow: none;
+}
