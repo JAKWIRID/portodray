@@ -546,19 +546,23 @@ a:hover {
 :root {
   --neon-gradient: linear-gradient(
     135deg,
-    #7f7cff,
-    #00eaff,
-    #7cffb2,
-    #ffd36e,
-    #ff7ad9
+    #3b82f6,   /* blue */
+    #8b5cf6,   /* purple */
+    #ec4899    /* pink */
   );
 }
 
 /* animasi ganti warna pelan */
 @keyframes colorShift {
-  0%   { filter: hue-rotate(0deg); }
-  50%  { filter: hue-rotate(180deg); }
-  100% { filter: hue-rotate(360deg); }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* ===== GANTI SEMUA PINK JADI GRADIENT ===== */
@@ -570,23 +574,24 @@ section,
 .modal-content,
 #chatbot-container,
 .qris-container {
-  border-color: transparent !important;
   background-image:
     linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)),
-    var(--neon-gradient) !important;
+    var(--neon-gradient);
   background-origin: padding-box, border-box;
   background-clip: padding-box, border-box;
-  animation: colorShift 14s linear infinite;
+  border: 1px solid transparent;
+  background-size: 200% 200%;
+  animation: colorShift 12s ease infinite;
 }
-
 /* ===== BUTTON ===== */
 .menu-button,
 .music-control,
 #send-button,
 .modal-content a {
-  background: var(--neon-gradient) !important;
-  color: #000 !important;
-  animation: colorShift 10s linear infinite;
+  background: var(--neon-gradient);
+  background-size: 200% 200%;
+  color: #000;
+  animation: colorShift 8s ease infinite;
 }
 
 /* ===== TEXT / TITLE ===== */
@@ -594,24 +599,21 @@ h1,
 h2 {
   background: linear-gradient(
     90deg,
-    #ff7ad9,
-    #7f7cff,
-    #00eaff,
-    #7cffb2,
-    #ffd36e
-  ) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  animation: neonText 6s linear infinite, colorShift 12s linear infinite;
+    #60a5fa,
+    #a78bfa,
+    #f472b6
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% auto;
+  animation: neonText 6s linear infinite;
 }
 
 /* ===== CHAT ===== */
 .ai-message {
-  background: var(--neon-gradient) !important;
-  color: #000 !important;
-  animation: colorShift 8s linear infinite;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+  color: #000;
 }
-
 /* ===== GLOW IKUT WARNA ===== */
 .profile-pic,
 .slider-dot.active,
