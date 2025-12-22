@@ -712,7 +712,8 @@ document.addEventListener("DOMContentLoaded", () => {
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
+import { doc, getDoc, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    
 const firebaseConfig = {
   apiKey: "AIzaSyCJnVG8Ln9CmxTmz6tH-ySfbh4G2v-N71A",
   authDomain: "zeno-reviews.firebaseapp.com",
