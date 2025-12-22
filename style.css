@@ -1100,3 +1100,12 @@ header:active .profile-pic {
 .nowa{background:linear-gradient(135deg,#1ddf7c,#0ea960);box-shadow:0 0 22px #25d366aa}  
 .wa{background:linear-gradient(135deg,#1ddf7c,#0ea960);box-shadow:0 0 22px #25d366aa}  
 .yt{background:linear-gradient(135deg,#ff3b3b,#c70000);box-shadow:0 0 22px #ff0000aa}
+
+
+.site-footer {
+  width: 100%;
+  text-align: center;
+  font-size: 11px;          /* kecil */
+  margin: 25px 0 15px;
+  padding-top: 10px;
+  color: rgba(255,255,255,0.7); /* putih soft */
