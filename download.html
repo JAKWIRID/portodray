@@ -552,7 +552,7 @@ div.innerHTML = `
         data-file="${file.name}">
   ⬇ Download
 </button>`;
-btn.addEventListener("click", async (e) => {
+btn.addEventListener("download-link", async (e) => {
   const target = e.currentTarget;
   const filename = file.name;
 
