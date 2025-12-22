@@ -541,12 +541,9 @@ div.innerHTML = `
     </div>
   </div>
 
-  <a class="download-link"
-     href="${rawBase}${file.name}"
-     target="_blank"
-     onclick="increaseDownload('${file.name}')">
-     ⬇ Download
-  </a>
+            <button class="download-link">
+            ⬇ Download
+          </button>
 `;
 btn.addEventListener("click", async () => {
   btn.textContent = "⏳ Downloading...";
