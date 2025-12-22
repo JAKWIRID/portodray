@@ -548,14 +548,10 @@ div.innerHTML = `
     </div>
   </div>
 
-<a
-  href="${rawBase}${file.name}"
-  target="_blank"
-  class="download-link"
-  onclick="increaseDownload('${file.name}')"
->
+<button class="download-link"
+        data-file="${file.name}">
   ⬇ Download
-</a>`;
+</button>`;
 btn.addEventListener("click", async (e) => {
   const target = e.currentTarget;
   const filename = file.name;
