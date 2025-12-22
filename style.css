@@ -896,12 +896,43 @@ h2 {
     0 0 25px rgba(0,255,255,1);
 }
 
+#music-list {
+  margin-top: 10px;
+}
+
 .playlist-item {
   position: relative;
   padding: 10px 14px;
   border-radius: 12px;
   cursor: pointer;
   transition: background 0.3s ease;
+}
+
+.playlist-item span {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(220, 230, 240, 0.75);
+  letter-spacing: .2px;
+}
+
+/* hover */
+.playlist-item:hover {
+  background: rgba(80, 200, 255, 0.08);
+}
+
+/* lagu aktif */
+.playlist-item.active {
+  background: linear-gradient(
+    90deg,
+    rgba(80, 200, 255, 0.25),
+    rgba(160, 120, 255, 0.25)
+  );
+  box-shadow: 0 0 12px rgba(120, 200, 255, 0.35);
+}
+
+.playlist-item.active span {
+  color: #e9faff;
+  font-weight: 600;
 }
 
 /* border neon */
@@ -921,16 +952,38 @@ h2 {
   animation: neonPulse 3s ease-in-out infinite;
 }
 
+.playlist-item span {
+  position: relative;
+  z-index: 1;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(220, 230, 240, 0.75);
+  letter-spacing: .2px;
+}
+
+/* hover */
+.playlist-item:hover {
+  background: rgba(80, 200, 255, 0.08);
+}
+
+/* lagu aktif */
+.playlist-item.active {
+  background: linear-gradient(
+    90deg,
+    rgba(80, 200, 255, 0.25),
+    rgba(160, 120, 255, 0.25)
+  );
+  box-shadow: 0 0 12px rgba(120, 200, 255, 0.35);
+}
+
+.playlist-item.active span {
+  color: #e9faff;
+  font-weight: 600;
+}
 /* aktif */
 .playlist-item.active::before {
   opacity: 1;
 }
-
-.playlist-item span {
-  position: relative;
-  z-index: 1;
-}
-
 @keyframes neonPulse {
   0% {
     filter: blur(6px);
