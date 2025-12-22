@@ -426,147 +426,419 @@ nav {
     
 </style>
 </head>
+
 <body>
+    <div id="music-control" class="music-btn paused">
+    <span class="icon">🎵</span>
+    <div class="bars">
+        <span></span><span></span><span></span>
+    </div>
+</div>    
+    <canvas id="particles"></canvas>
+    <div class="container">
+        <header>
+            <h1 id="page-title">PROJECT DRAY</h1>
 
-<div class="container">
-
-<h1>PROJECT DRAY</h1>
-
+            <nav>
+                <a href="index.html" class="menu-button">➥ Back Profile</a>
+            </nav>
+        </header>
 <div class="download-section">
-  <h2>📦 List Script</h2>
-  <div id="download-list">Loading...</div>
+    <h2>📦 List script</h2>
+    <p class="script-warning">
+  <span id="typing-warning"></span>
+</p>
+    <div id="download-list" class="loading-text">
+        Loading file...
+    </div>
 </div>
-
-<div class="review-section">
-  <div id="reviewList"></div>
-
-  <h3>⭐ Beri Ulasan</h3>
-
-  <input id="username" placeholder="Username"><br><br>
-
-  <div id="star-rating">
-    <span data-star="1">★</span>
-    <span data-star="2">★</span>
-    <span data-star="3">★</span>
-    <span data-star="4">★</span>
-    <span data-star="5">★</span>
-  </div>
-
-  <textarea id="comment" placeholder="Tulis ulasan..."></textarea><br>
-  <button id="submitReview">Kirim Ulasan</button>
-</div>
-
-</div>
-
-<!-- ================= FIREBASE + LOGIC DIGABUNG ================= -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import {
-  getFirestore, collection, addDoc, getDocs,
-  query, orderBy, serverTimestamp,
-  doc, getDoc, setDoc, increment
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  increment
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-/* === FIREBASE INIT (SATU KALI) === */
-const firebaseConfig = {
+/* === FIREBASE INIT === */
+const app = initializeApp({
   apiKey: "AIzaSyCJnVG8Ln9CmxTmz6tH-ySfbh4G2v-N71A",
   authDomain: "zeno-reviews.firebaseapp.com",
   projectId: "zeno-reviews"
-};
-
-const app = initializeApp(firebaseConfig);
+});
 const db = getFirestore(app);
+const app = initializeApp(firebaseConfig);
 
-/* ================= DOWNLOAD LIST ================= */
 const USERNAME = "JAKWIRID";
 const REPO = "zeno-downloads";
 const FOLDER = "downloads";
+
 const apiURL = `https://api.github.com/repos/${USERNAME}/${REPO}/contents/${FOLDER}`;
 const rawBase = `https://raw.githubusercontent.com/${USERNAME}/${REPO}/main/${FOLDER}/`;
 
-fetch(apiURL)
-.then(r => r.json())
-.then(files => {
-  const list = document.getElementById("download-list");
-  list.innerHTML = "";
+const list = document.getElementById("download-list");
+const MIN_LOADING_TIME = 1500; // ⏳ milidetik (1.8 detik)
 
-  files.filter(f=>f.name.endsWith(".zip")).forEach(file=>{
-    const div = document.createElement("div");
-    div.innerHTML = `
-      <div>
-        📂 ${file.name}
-        <div id="count-${file.name}">loading...</div>
-      </div>
-      <button>⬇ Download</button>
-    `;
+const startTime = Date.now();
 
-    div.querySelector("button").onclick = async ()=>{
-      window.open(rawBase + file.name, "_blank");
-      const ref = doc(db,"downloads",file.name);
-      await setDoc(ref,{count:increment(1)},{merge:true});
-      loadCount(file.name);
-    };
-
-    list.appendChild(div);
-    loadCount(file.name);
-  });
-});
-
-async function loadCount(name){
-  const ref = doc(db,"downloads",name);
+/* === DOWNLOAD COUNTER === */
+async function loadDownloadCount(filename) {
+  const ref = doc(db, "downloads", filename);
   const snap = await getDoc(ref);
-  document.getElementById("count-"+name).textContent =
-    snap.exists() ? snap.data().count+" downloader" : "0 downloader";
+
+  let count = 0;
+
+  if (snap.exists()) {
+    count = snap.data().count || 0;
+  } else {
+    await setDoc(ref, { count: 0 });
+  }
+
+  const el = document.getElementById(`count-${filename}`);
+  if (el) el.textContent = `${count} downloader`;
 }
 
-/* ================= REVIEW SYSTEM ================= */
-let selectedRating = 0;
+async function increaseDownload(filename) {
+  const ref = doc(db, "downloads", filename);
 
-document.querySelectorAll("#star-rating span").forEach(s=>{
-  s.onclick = ()=>{
-    selectedRating = s.dataset.star;
-    document.querySelectorAll("#star-rating span")
-      .forEach(x=>x.style.color = x.dataset.star<=selectedRating?"gold":"#555");
-  };
+  await setDoc(
+    ref,
+    { count: increment(1) },
+    { merge: true }
+  );
+}
+fetch(apiURL)
+  .then(res => res.json())
+  .then(files => {
+    const elapsed = Date.now() - startTime;
+    const delay = Math.max(0, MIN_LOADING_TIME - elapsed);
+
+    setTimeout(() => {
+      list.innerHTML = "";
+      list.classList.remove("loading-text");
+
+      const zipFiles = files.filter(f => f.name.endsWith(".zip"));
+
+      if (!zipFiles.length) {
+        list.innerHTML = "📭 Belum ada file";
+        return;
+      }
+
+      zipFiles.forEach((file, index) => {
+        const div = document.createElement("div");
+        div.className = "download-item";
+        div.style.animationDelay = `${index * 0.12}s`;
+
+        div.style.display = "flex";
+        div.style.justifyContent = "space-between";
+        div.style.alignItems = "center";
+        div.style.marginBottom = "15px";
+        div.style.padding = "15px";
+        div.style.background = "rgba(255,255,255,0.05)";
+        div.style.borderRadius = "12px";
+
+        const key = `download_${file.name}`;
+div.innerHTML = `
+  <div>
+    <span>📂 ${file.name}</span>
+    <div class="download-meta" id="count-${file.name}">
+      loading...
+    </div>
+  </div>
+
+<button class="download-link"
+        data-file="${file.name}">
+  ⬇ Download
+</button>`;
+  const btn = div.querySelector(".download-link");        
+btn.addEventListener("click", async (e) => {
+  const target = e.currentTarget;
+  const filename = file.name;
+
+  // 🔥 DOWNLOAD HARUS LANGSUNG (ANTI BLOCK)
+  window.open(`${rawBase}${filename}`, "_blank");
+
+  target.textContent = "⏳ Downloading...";
+  target.style.pointerEvents = "none";
+
+  try {
+    await increaseDownload(filename);
+  } catch (e) {
+    console.error("Gagal update counter", e);
+  }
+
+  target.textContent = "⬇ Download";
+  target.style.pointerEvents = "auto";
 });
-
-document.getElementById("submitReview").onclick = async ()=>{
-  const username = usernameInput.value.trim();
-  const comment = commentInput.value.trim();
-  if(!username || !comment || !selectedRating) return alert("Lengkapi semua");
-
-  await addDoc(collection(db,"reviews"),{
-    username, comment,
-    rating:selectedRating,
-    time:serverTimestamp()
+          
+        list.appendChild(div);
+         loadDownloadCount(file.name); 
+      });
+    }, delay);
+  })
+  .catch(() => {
+    setTimeout(() => {
+      list.classList.remove("loading-text");
+      list.innerHTML = "❌ Gagal load file (Refresh kembali website)";
+    }, MIN_LOADING_TIME);
   });
 
-  usernameInput.value="";
-  commentInput.value="";
-  selectedRating=0;
-  loadReviews();
-};
 
-async function loadReviews(){
+<div class="review-section">
+    <div id="reviewList"></div>
+  <h3>⭐ Beri Ulasan</h3>
+
+  <div class="review-form">
+    <input type="text" id="username" placeholder="Username" />
+
+    <div class="stars" id="star-rating">
+      <span data-star="1">★</span>
+      <span data-star="2">★</span>
+      <span data-star="3">★</span>
+      <span data-star="4">★</span>
+      <span data-star="5">★</span>
+    </div>
+
+    <textarea id="comment" placeholder="Tulis ulasan..."></textarea>
+    <button id="submitReview">Kirim Ulasan</button>
+  </div>
+
+  
+</div>
+        
+    <audio id="bg-music" loop muted>
+        <source src="https://files.catbox.moe/b3kwgp.mp3"  type="audio/mpeg">
+    </audio>
+
+  
+const music = document.getElementById("bg-music");
+const btn = document.getElementById("music-control");
+
+music.volume = 0.5;
+
+// autoplay muted
+window.addEventListener("load", () => {
+    music.play().catch(() => {});
+});
+
+// toggle play
+btn.addEventListener("click", () => {
+    if (music.paused) {
+        music.muted = false;
+        music.play();
+        btn.classList.remove("paused");
+        btn.classList.add("playing");
+    } else {
+        music.pause();
+        btn.classList.remove("playing");
+        btn.classList.add("paused");
+    }
+});
+
+   
+        const canvas = document.getElementById("particles");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particlesArray;
+        let hue = 0;
+
+        class Particle {
+            constructor(x, y, size, speedX, speedY) {
+                this.x = x;
+                this.y = y;
+                this.size = size;
+                this.speedX = speedX;
+                this.speedY = speedY;
+                this.color = `hsl(${hue}, 100%, 60%)`;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+                this.color = `hsl(${hue}, 100%, 60%)`;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            particlesArray = [];
+            for (let i = 0; i < 120; i++) {
+                let size = Math.random() * 3 + 1;
+                let x = Math.random() * canvas.width;
+                let y = Math.random() * canvas.height;
+                let speedX = (Math.random() - 0.5) * 1.5;
+                let speedY = (Math.random() - 0.5) * 1.5;
+                particlesArray.push(new Particle(x, y, size, speedX, speedY));
+            }
+        }
+
+        function connectParticles() {
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let dx = particlesArray[a].x - particlesArray[b].x;
+                    let dy = particlesArray[a].y - particlesArray[b].y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 120) {
+                        ctx.strokeStyle = `hsla(${hue}, 100%, 60%, 0.2)`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            hue += 0.5;
+            particlesArray.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            connectParticles();
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+
+        window.addEventListener("resize", () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            init();
+        });
+   
+
+  
+document.addEventListener("DOMContentLoaded", () => {
+  const text = "Versi lama mungkin sudah tidak bisa digunakan...";
+  const el = document.getElementById("typing-warning");
+
+  let i = 0;
+
+  function typeLoop() {
+    if (i < text.length) {
+      el.textContent += text.charAt(i);
+      i++;
+      setTimeout(typeLoop, 80);
+    } else {
+      setTimeout(() => {
+        el.textContent = "";
+        i = 0;
+        typeLoop();
+      }, 2000);
+    }
+  }
+
+  typeLoop();
+});
+   
+let selectedRating = 0;
+
+document.querySelectorAll("#star-rating span").forEach(star => {
+  star.addEventListener("click", () => {
+    selectedRating = star.dataset.star;
+    document.querySelectorAll("#star-rating span").forEach(s => {
+      s.classList.toggle("active", s.dataset.star <= selectedRating);
+    });
+  });
+});
+
+document.getElementById("submitReview").addEventListener("click", async () => {
+  const username = document.getElementById("username").value.trim();
+  const comment = document.getElementById("comment").value.trim();
+
+  if (!username || !comment || selectedRating == 0) {
+    alert("Lengkapi semua field!");
+    return;
+  }
+
+  await addDoc(collection(db, "reviews"), {
+    username,
+    comment,
+    rating: selectedRating,
+    time: serverTimestamp()
+  });
+
+  document.getElementById("username").value = "";
+  document.getElementById("comment").value = "";
+  selectedRating = 0;
+  document.querySelectorAll("#star-rating span").forEach(s => s.classList.remove("active"));
+
+  loadReviews();
+});
+
+let reviewsData = [];
+let reviewIndex = 0;
+let reviewInterval = null;
+
+async function loadReviews() {
   const list = document.getElementById("reviewList");
-  list.innerHTML="⏳ Memuat ulasan...";
-  const q = query(collection(db,"reviews"),orderBy("time","desc"));
+  if (!list) {
+    console.error("reviewList element tidak ditemukan");
+    return;
+  }
+
+  list.innerHTML = "⏳ Memuat ulasan...";
+
+  const q = query(collection(db, "reviews"), orderBy("time", "desc"));
   const snap = await getDocs(q);
 
-  if(snap.empty){ list.innerHTML="Belum ada ulasan."; return; }
+  reviewsData = [];
+  snap.forEach(doc => reviewsData.push(doc.data()));
 
-  const d = snap.docs[0].data();
+  if (!reviewsData.length) {
+    list.innerHTML = "Belum ada ulasan.";
+    return;
+  }
+
+  reviewIndex = 0;
+  showReview();
+
+  if (reviewInterval) clearInterval(reviewInterval);
+
+  reviewInterval = setInterval(() => {
+    reviewIndex = (reviewIndex + 1) % reviewsData.length;
+    showReview();
+  }, 4000);
+}
+
+function showReview() {
+  const list = document.getElementById("reviewList");
+  const d = reviewsData[reviewIndex];
+
   list.innerHTML = `
     <div class="review-item">
-      <div class="name">${d.username}</div>
-      <div class="rating">${"★".repeat(d.rating)}</div>
-      <div>${d.comment}</div>
+      <div class="name">${d.username || "Anonim"}</div>
+      <div class="rating">${"★".repeat(d.rating || 0)}</div>
+      <div>${d.comment || ""}</div>
     </div>
   `;
 }
 
+// ⬅️ INI YANG SERING LUPA
 loadReviews();
 </script>
-
+       
+</script>     
+        <footer class="site-footer">
+  © DrayXD Official — 2025
+        </footer>
 </body>
 </html>
