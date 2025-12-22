@@ -471,14 +471,17 @@ const app = initializeApp({
 });
 const db = getFirestore(app);
 
-/* === GITHUB === */
 const USERNAME = "JAKWIRID";
 const REPO = "zeno-downloads";
 const FOLDER = "downloads";
 
 const apiURL = `https://api.github.com/repos/${USERNAME}/${REPO}/contents/${FOLDER}`;
 const rawBase = `https://raw.githubusercontent.com/${USERNAME}/${REPO}/main/${FOLDER}/`;
+
 const list = document.getElementById("download-list");
+const MIN_LOADING_TIME = 1500; // ⏳ milidetik (1.8 detik)
+
+const startTime = Date.now();
 
 /* === DOWNLOAD COUNTER === */
 async function loadDownloadCount(filename) {
@@ -499,41 +502,63 @@ async function increaseDownload(filename) {
   await updateDoc(ref, { count: increment(1) });
   loadDownloadCount(filename);
 }
-
-/* === LOAD FILE LIST === */
 fetch(apiURL)
-  .then(r => r.json())
+  .then(res => res.json())
   .then(files => {
-    list.innerHTML = "";
+    const elapsed = Date.now() - startTime;
+    const delay = Math.max(0, MIN_LOADING_TIME - elapsed);
 
-    files
-      .filter(f => f.name.endsWith(".zip"))
-      .forEach(file => {
+    setTimeout(() => {
+      list.innerHTML = "";
+      list.classList.remove("loading-text");
+
+      const zipFiles = files.filter(f => f.name.endsWith(".zip"));
+
+      if (!zipFiles.length) {
+        list.innerHTML = "📭 Belum ada file";
+        return;
+      }
+
+      zipFiles.forEach((file, index) => {
         const div = document.createElement("div");
         div.className = "download-item";
+        div.style.animationDelay = `${index * 0.12}s`;
 
-        div.innerHTML = `
-          <div>
-            <span>📂 ${file.name}</span>
-            <div class="download-meta" id="count-${file.name}">
-              loading...
-            </div>
-          </div>
+        div.style.display = "flex";
+        div.style.justifyContent = "space-between";
+        div.style.alignItems = "center";
+        div.style.marginBottom = "15px";
+        div.style.padding = "15px";
+        div.style.background = "rgba(255,255,255,0.05)";
+        div.style.borderRadius = "12px";
 
-          <button class="download-link">
-            ⬇ Download
-          </button>
-        `;
+        const key = `download_${file.name}`;
+div.innerHTML = `
+  <div>
+    <span>📂 ${file.name}</span>
+    <div class="download-meta" id="count-${file.name}">
+      loading...
+    </div>
+  </div>
 
-        const btn = div.querySelector(".download-link");
-        btn.addEventListener("click", () => {
-          increaseDownload(file.name);
-          window.open(`${rawBase}${file.name}`, "_blank");
-        });
+  <a class="download-link"
+     href="${rawBase}${file.name}"
+     target="_blank"
+     onclick="increaseDownload('${file.name}')">
+     ⬇ Download
+  </a>
+`;
 
         list.appendChild(div);
-        loadDownloadCount(file.name);
+         loadDownloadCount(file.name); 
       });
+    }, delay);
+  })
+  .catch(() => {
+    setTimeout(() => {
+      list.classList.remove("loading-text");
+      list.innerHTML = "❌ Gagal load file (Refresh kembali website)";
+    }, MIN_LOADING_TIME);
   });
 </script>
 
