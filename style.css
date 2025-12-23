@@ -1055,9 +1055,6 @@ a:focus {
   box-shadow: none;
 }
 
-header:active *:not(#music-fab):not(#music-fab *) {
-  animation: none !important;
-}
 
 header:active,
 section:active,
@@ -1073,12 +1070,7 @@ section:active,
   ) !important;
 }
 
-header:active .profile-pic {
-  animation: none !important;
-  box-shadow:
-    0 0 16px rgba(139,92,246,.9),
-    0 0 32px rgba(139,92,246,.5) !important;
-}
+
 
 /* ===== contac ===== */  
 .contact{  
