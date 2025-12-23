@@ -1055,11 +1055,7 @@ a:focus {
   box-shadow: none;
 }
 
-header:active *,
-section:active *,
-.project-card:active *,
-.skill-box:active *,
-.contact-button-trigger:active * {
+header:active *:not(#music-fab):not(#music-fab *) {
   animation: none !important;
 }
 
