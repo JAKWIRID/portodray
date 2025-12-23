@@ -340,3 +340,16 @@ function playMusic(index, el) {
   // audio.play()
 }
 
+const musicFab = document.getElementById("music-fab");
+const audio = document.getElementById("audio"); // sesuaikan id audio
+
+musicFab.addEventListener("click", () => {
+  if (audio.paused) {
+    audio.play();
+    musicFab.classList.add("playing"); // 🔥 INI WAJIB
+  } else {
+    audio.pause();
+    musicFab.classList.remove("playing"); // 🔥 INI JUGA
+  }
+});
+
