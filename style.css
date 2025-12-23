@@ -703,41 +703,7 @@ h2 {
   }
 }
 
-/* === FLOAT BUTTON === */
-#music-fab {
-  position: fixed;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: radial-gradient(circle,#00ffe0,#0066ff);
-  box-shadow: 0 0 25px #00ffe0;
-  z-index: 999;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
-/* disc */
-#music-fab .disc {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: url("https://files.catbox.moe/5qq2bm.jpg") center/cover;
-}
-
-/* spin saat play */
-#music-fab.playing .disc {
-  animation: spin 3s linear infinite;
-}
-
-@keyframes spin {
-  from { transform: rotate(0); }
-  to { transform: rotate(360deg); }
-}
 
 /* === PANEL === */
 #music-panel {
@@ -1109,3 +1075,39 @@ header:active .profile-pic {
   margin: 25px 0 15px;
   padding-top: 10px;
   color: rgba(255,255,255,0.7); /* putih soft */
+
+  /* === FLOAT BUTTON === */
+#music-fab {
+  position: fixed;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle,#00ffe0,#0066ff);
+  box-shadow: 0 0 25px #00ffe0;
+  z-index: 999;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* disc */
+#music-fab .disc {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: url("https://files.catbox.moe/5qq2bm.jpg") center/cover;
+}
+
+/* spin saat play */
+#music-fab.playing .disc {
+  animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0); }
+  to { transform: rotate(360deg); }
+}
