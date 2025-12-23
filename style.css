@@ -707,21 +707,19 @@ h2 {
   /* === FLOAT BUTTON === */
 #music-fab {
   position: fixed;
-  left: 14px;
-  width: 56px;
-  height: 56px;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
+  background: radial-gradient(circle,#00ffe0,#0066ff);
+  box-shadow: 0 0 25px #00ffe0;
+  z-index: 999;
   cursor: pointer;
-  z-index: 99999;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  transition: 
-    transform .25s ease,
-    box-shadow .25s ease,
-    background .3s ease;
 }
 
   
