@@ -739,6 +739,14 @@ h2 {
   animation: spin 3s linear infinite;
 }
 
+#music-fab:active,
+#zeno-fab:active {
+  transform: scale(.94);
+  box-shadow:
+    0 0 10px rgba(255,255,255,.9),
+    0 0 25px rgba(0,255,255,1);
+}
+  
 @keyframes spin {
   from { transform: rotate(0); }
   to { transform: rotate(360deg); }
