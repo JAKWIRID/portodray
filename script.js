@@ -326,6 +326,20 @@ document.addEventListener("DOMContentLoaded", () => {
   chat.style.display = "none";
 });
 
+
+const musicFab = document.getElementById("music-fab");
+const audio = document.getElementById("audio"); // sesuaikan id audio
+
+musicFab.addEventListener("click", () => {
+  if (audio.paused) {
+    audio.play();
+    musicFab.classList.add("playing"); // 🔥 INI WAJIB
+  } else {
+    audio.pause();
+    musicFab.classList.remove("playing"); // 🔥 INI JUGA
+  }
+});
+
 function playMusic(index, el) {
   // hapus active dari semua
   document.querySelectorAll(".playlist-item").forEach(item => {
@@ -340,16 +354,5 @@ function playMusic(index, el) {
   // audio.play()
 }
 
-const musicFab = document.getElementById("music-fab");
-const audio = document.getElementById("audio"); // sesuaikan id audio
 
-musicFab.addEventListener("click", () => {
-  if (audio.paused) {
-    audio.play();
-    musicFab.classList.add("playing"); // 🔥 INI WAJIB
-  } else {
-    audio.pause();
-    musicFab.classList.remove("playing"); // 🔥 INI JUGA
-  }
-});
 
