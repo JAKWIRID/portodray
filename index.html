@@ -234,7 +234,11 @@ const playBtn = document.getElementById("playBtn");
 
 function toggleMusicPanel() {
   const panel = document.getElementById("music-panel");
-  panel.style.display = panel.style.display === "block" ? "none" : "block";
+  panel.classList.toggle("active");
+
+  if (audio.paused) {
+    audio.play(); // 🔥 ini trigger muter
+  }
 }
 
 function loadTrack(i) {
