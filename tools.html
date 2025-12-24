@@ -513,6 +513,21 @@ nav {
   </div>
 </div>
 
+<div class="download-section">
+  <h2>🎵 TikTok Downloader</h2>
+
+  <input id="tiktokUrl" placeholder="Tempel link TikTok..." />
+  <button class="menu-button" onclick="downloadTikTok()">⬇ Download</button>
+
+  <p id="ttStatus" class="loading-text"></p>
+
+  <div id="ttPreview" style="display:none; margin-top:15px;">
+    <video id="ttVideo" controls width="100%" style="border-radius:12px;"></video>
+    <p id="ttTitle" style="margin-top:8px;"></p>
+    <a id="ttDownload" class="download-link" target="_blank">⬇ Download Video</a>
+  </div>
+</div>
+        
    <script>
 function startFakeLoading(duration = 40000) {
   const status = document.getElementById("upload-status");
@@ -623,6 +638,42 @@ copyBtn.onclick = () => {
   setTimeout(() => copyBtn.textContent = "📋 Copy", 1500);
 };
 </script>
+<script>
+   async function downloadTikTok() {
+  const url = document.getElementById("tiktokUrl").value;
+  const status = document.getElementById("ttStatus");
+  const preview = document.getElementById("ttPreview");
+
+  if (!url) {
+    status.textContent = "⚠️ Masukkan link TikTok";
+    return;
+  }
+
+  status.textContent = "⏳ Mengambil data TikTok...";
+  preview.style.display = "none";
+
+  try {
+    const res = await fetch("/api/tiktok", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url })
+    });
+
+    const data = await res.json();
+    if (!data.success) throw data;
+
+    document.getElementById("ttVideo").src = data.video;
+    document.getElementById("ttTitle").textContent = data.title;
+    document.getElementById("ttDownload").href = data.video;
+
+    preview.style.display = "block";
+    status.textContent = "✅ Video siap!";
+  } catch (e) {
+    console.error(e);
+    status.textContent = "❌ Gagal mengambil video";
+  }
+} 
+</script>        
     <script>
         const canvas = document.getElementById("particles");
         const ctx = canvas.getContext("2d");
