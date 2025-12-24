@@ -526,7 +526,7 @@ selectBtn.onclick = () => input.click();
 input.onchange = async () => {
   const file = input.files[0];
   if (!file) return;
-
+const stopLoading = startFakeLoading(40000);
   status.textContent = "⏳ Uploading...";
   resultBox.style.display = "none";
 
@@ -545,7 +545,7 @@ input.onchange = async () => {
     });
 
     const data = await res.json();
-
+stopLoading();
     if (!data.success) {
       status.textContent = "❌ Upload gagal";
       console.error(data);
