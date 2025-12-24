@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     }
 
     const filename = `${name}.${ext}`;
-    const path = `${filename}`;
+    const path = `media/${filename}`;
 
     const api = `https://api.github.com/repos/JAKWIRID/portodray/contents/${path}`;
 
@@ -44,7 +44,7 @@ export default async function handler(req, res) {
 
     res.status(200).json({
       success: true,
-      url: `https://dray.vercel.app/${filename}`,
+      url: `https://dray.vercel.app/media/${filename}`,
     });
   } catch (e) {
     res.status(500).json({ error: e.message });
