@@ -529,16 +529,16 @@ input.onchange = async () => {
   resultBox.style.display = "none";
 
   const reader = new FileReader();
-
   reader.onload = async () => {
     const base64 = reader.result.split(",")[1];
+    const ext = file.name.split(".").pop().toLowerCase(); // ⬅️ INI PENTING
 
     const res = await fetch("/api/upload", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        filename: file.name,
-        content: base64
+        content: base64,
+        ext: ext
       })
     });
 
@@ -546,12 +546,12 @@ input.onchange = async () => {
 
     if (!data.success) {
       status.textContent = "❌ Upload gagal";
-      console.log(data);
+      console.error(data);
       return;
     }
 
     status.textContent = "✅ Upload berhasil";
-    urlInput.value = data.data.content.download_url;
+    urlInput.value = data.url; // ⬅️ URL DARI BACKEND
     resultBox.style.display = "flex";
   };
 
@@ -563,36 +563,6 @@ copyBtn.onclick = () => {
   copyBtn.textContent = "✔ Copied";
   setTimeout(() => copyBtn.textContent = "📋 Copy", 1500);
 };
-</script>
- 
-<script>
-async function uploadMedia(file) {
-  const reader = new FileReader();
-
-  reader.onload = async () => {
-    const base64 = reader.result.split(",")[1];
-    const ext = file.name.split(".").pop();
-
-    const res = await fetch("/api/upload", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content: base64, ext }),
-    });
-
-    const data = await res.json();
-
-    if (data.success) {
-      document.getElementById("result").innerHTML = `
-        ✅ Upload berhasil<br>
-        <a href="${data.url}" target="_blank">${data.url}</a>
-      `;
-    } else {
-      document.getElementById("result").textContent = "❌ Upload gagal";
-    }
-  };
-
-  reader.readAsDataURL(file);
-}
 </script>
     <script>
         const canvas = document.getElementById("particles");
