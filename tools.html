@@ -563,7 +563,7 @@ input.onchange = async () => {
   const file = input.files[0];
   if (!file) return;
 
-  
+  status.textContent = "Tunggu sebentar...";
   resultBox.style.display = "none";
 
   // 🔥 mulai fake loading 30 detik
