@@ -639,40 +639,47 @@ copyBtn.onclick = () => {
 };
 </script>
 <script>
-   async function downloadTikTok() {
-  const url = document.getElementById("tiktokUrl").value;
-  const status = document.getElementById("ttStatus");
-  const preview = document.getElementById("ttPreview");
+   const btn = document.getElementById("tiktokBtn");
+const input = document.getElementById("tiktokUrl");
+const status = document.getElementById("tiktokStatus");
+const preview = document.getElementById("tiktokPreview");
 
-  if (!url) {
+btn.onclick = async () => {
+  if (!input.value) {
     status.textContent = "⚠️ Masukkan link TikTok";
     return;
   }
 
   status.textContent = "⏳ Mengambil data TikTok...";
-  preview.style.display = "none";
+  preview.innerHTML = "";
 
   try {
     const res = await fetch("/api/tiktok", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ url })
+      body: JSON.stringify({ url: input.value })
     });
 
     const data = await res.json();
     if (!data.success) throw data;
 
-    document.getElementById("ttVideo").src = data.video;
-    document.getElementById("ttTitle").textContent = data.title;
-    document.getElementById("ttDownload").href = data.video;
+    status.textContent = "✅ Video siap";
 
-    preview.style.display = "block";
-    status.textContent = "✅ Video siap!";
+    preview.innerHTML = `
+      <video src="${data.video}" controls playsinline
+        style="width:100%;border-radius:14px;margin-top:10px"></video>
+
+      <a href="${data.video}" download
+        class="menu-button"
+        style="margin-top:12px;display:inline-block">
+        ⬇ Download Video
+      </a>
+    `;
   } catch (e) {
     console.error(e);
     status.textContent = "❌ Gagal mengambil video";
   }
-}
+};
 </script>        
     <script>
         const canvas = document.getElementById("particles");
