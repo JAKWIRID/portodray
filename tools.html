@@ -513,60 +513,8 @@ nav {
   </div>
 </div>
 
-<script>
-const input = document.getElementById("mediaInput");
-const selectBtn = document.getElementById("selectMedia");
-const status = document.getElementById("uploadStatus");
-const resultBox = document.getElementById("resultBox");
-const urlInput = document.getElementById("mediaUrl");
-const copyBtn = document.getElementById("copyUrl");
-
-selectBtn.onclick = () => input.click();
-
-input.onchange = async () => {
-  const file = input.files[0];
-  if (!file) return;
-const stopLoading = startFakeLoading(40000);
-  status.textContent = "⏳ Uploading...";
-  resultBox.style.display = "none";
-
-  const reader = new FileReader();
-  reader.onload = async () => {
-    const base64 = reader.result.split(",")[1];
-    const ext = file.name.split(".").pop().toLowerCase(); // ⬅️ INI PENTING
-
-    const res = await fetch("/api/upload", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        content: base64,
-        ext: ext
-      })
-    });
-
-    const data = await res.json();
-stopLoading();
-    if (!data.success) {
-      status.textContent = "❌ Upload gagal";
-      console.error(data);
-      return;
-    }
-
-    status.textContent = "✅ Upload berhasil";
-    urlInput.value = data.url; // ⬅️ URL DARI BACKEND
-    resultBox.style.display = "flex";
-  };
-
-  reader.readAsDataURL(file);
-};
-
-copyBtn.onclick = () => {
-  navigator.clipboard.writeText(urlInput.value);
-  copyBtn.textContent = "✔ Copied";
-  setTimeout(() => copyBtn.textContent = "📋 Copy", 1500);
-};
-
-    function startFakeLoading(duration = 40000) {
+   <script>
+function startFakeLoading(duration = 40000) {
   const status = document.getElementById("upload-status");
   status.style.display = "block";
 
@@ -587,17 +535,85 @@ copyBtn.onclick = () => {
   const interval = setInterval(() => {
     index = (index + 1) % messages.length;
     status.textContent = messages[index];
-  }, 5000); // ganti teks tiap 5 detik
+  }, 5000);
 
-  setTimeout(() => {
+  const timeout = setTimeout(() => {
     clearInterval(interval);
   }, duration);
 
+  // ⛔ fungsi buat stop manual
   return () => {
     clearInterval(interval);
+    clearTimeout(timeout);
     status.style.display = "none";
   };
 }
+</script>     
+<script>
+const input = document.getElementById("mediaInput");
+const selectBtn = document.getElementById("selectMedia");
+const status = document.getElementById("uploadStatus");
+const resultBox = document.getElementById("resultBox");
+const urlInput = document.getElementById("mediaUrl");
+const copyBtn = document.getElementById("copyUrl");
+
+selectBtn.onclick = () => input.click();
+
+input.onchange = async () => {
+  const file = input.files[0];
+  if (!file) return;
+
+  // 🔥 START FAKE LOADING 40 DETIK
+  const stopLoading = startFakeLoading(40000);
+
+  status.textContent = "⏳ Menyiapkan upload...";
+  resultBox.style.display = "none";
+
+  const reader = new FileReader();
+  reader.onload = async () => {
+    const base64 = reader.result.split(",")[1];
+    const ext = file.name.split(".").pop().toLowerCase();
+
+    try {
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content: base64,
+          ext: ext
+        })
+      });
+
+      const data = await res.json();
+
+      // ⛔ STOP FAKE LOADING
+      stopLoading();
+
+      if (!data.success) {
+        status.textContent = "❌ Upload gagal";
+        console.error(data);
+        return;
+      }
+
+      status.textContent = "✅ Upload selesai";
+      urlInput.value = data.url;
+      resultBox.style.display = "flex";
+
+    } catch (err) {
+      stopLoading();
+      status.textContent = "❌ Error upload";
+      console.error(err);
+    }
+  };
+
+  reader.readAsDataURL(file);
+};
+
+copyBtn.onclick = () => {
+  navigator.clipboard.writeText(urlInput.value);
+  copyBtn.textContent = "✔ Copied";
+  setTimeout(() => copyBtn.textContent = "📋 Copy", 1500);
+};
 </script>
     <script>
         const canvas = document.getElementById("particles");
