@@ -565,7 +565,35 @@ copyBtn.onclick = () => {
 };
 </script>
  
+<script>
+async function uploadMedia(file) {
+  const reader = new FileReader();
 
+  reader.onload = async () => {
+    const base64 = reader.result.split(",")[1];
+    const ext = file.name.split(".").pop();
+
+    const res = await fetch("/api/upload", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content: base64, ext }),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      document.getElementById("result").innerHTML = `
+        ✅ Upload berhasil<br>
+        <a href="${data.url}" target="_blank">${data.url}</a>
+      `;
+    } else {
+      document.getElementById("result").textContent = "❌ Upload gagal";
+    }
+  };
+
+  reader.readAsDataURL(file);
+}
+</script>
     <script>
         const canvas = document.getElementById("particles");
         const ctx = canvas.getContext("2d");
