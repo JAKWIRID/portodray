@@ -563,18 +563,20 @@ input.onchange = async () => {
   const file = input.files[0];
   if (!file) return;
 
-  // 🔥 START FAKE LOADING 40 DETIK
-  const stopLoading = startFakeLoading(40000);
-
   status.textContent = "⏳ Menyiapkan upload...";
   resultBox.style.display = "none";
 
+  // 🔥 mulai fake loading 40 detik
+  const stopFakeLoading = startFakeLoading(40000);
+
   const reader = new FileReader();
   reader.onload = async () => {
-    const base64 = reader.result.split(",")[1];
-    const ext = file.name.split(".").pop().toLowerCase();
-
     try {
+      const base64 = reader.result.split(",")[1];
+      const ext = file.name.split(".").pop().toLowerCase();
+
+      status.textContent = "🚀 Mengupload ke server...";
+
       const res = await fetch("/api/upload", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -586,23 +588,29 @@ input.onchange = async () => {
 
       const data = await res.json();
 
-      // ⛔ STOP FAKE LOADING
-      stopLoading();
-
       if (!data.success) {
+        stopFakeLoading();
         status.textContent = "❌ Upload gagal";
         console.error(data);
         return;
       }
 
-      status.textContent = "✅ Upload selesai";
-      urlInput.value = data.url;
-      resultBox.style.display = "flex";
+      // ✅ SIMPAN URL DULU, JANGAN DITAMPILKAN
+      const finalUrl = data.url;
 
-    } catch (err) {
-      stopLoading();
-      status.textContent = "❌ Error upload";
-      console.error(err);
+      // ⏳ TUNGGU SAMPAI FAKE LOADING SELESAI
+      setTimeout(() => {
+        stopFakeLoading();
+        status.textContent = "✅ Upload selesai";
+
+        urlInput.value = finalUrl;
+        resultBox.style.display = "flex";
+      }, 40000);
+
+    } catch (e) {
+      stopFakeLoading();
+      status.textContent = "❌ Terjadi kesalahan";
+      console.error(e);
     }
   };
 
