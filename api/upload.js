@@ -13,21 +13,28 @@ const FOLDER = "media";
 
 function randomName(len) {
   const chars = "abcdefghijklmnopqrstuvwxyz";
-  return Array.from({length: len}, () =>
-    chars[Math.floor(Math.random()*chars.length)]
+  return Array.from({ length: len }, () =>
+    chars[Math.floor(Math.random() * chars.length)]
   ).join("");
 }
 
 export default async function handler(req, res) {
-  const form = formidable();
+  const form = formidable({ multiples: false });
 
   form.parse(req, async (err, fields, files) => {
-    const file = files.file[0];
+    if (err) {
+      return res.status(500).json({ error: "Form parse error" });
+    }
+
+    const file = files.file;
+    if (!file) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+
     const buffer = fs.readFileSync(file.filepath);
     const ext = file.originalFilename.split(".").pop();
 
-    const name = randomName(5 + Math.floor(Math.random()*4));
-    const filename = `${name}.${ext}`;
+    const filename = `${randomName(7)}.${ext}`;
 
     const githubRes = await fetch(
       `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FOLDER}/${filename}`,
