@@ -555,31 +555,7 @@ copyBtn.onclick = () => {
 };
 </script>
  
-  <script>
-const music = document.getElementById("bg-music");
-const btn = document.getElementById("music-control");
 
-music.volume = 0.5;
-
-// autoplay muted
-window.addEventListener("load", () => {
-    music.play().catch(() => {});
-});
-
-// toggle play
-btn.addEventListener("click", () => {
-    if (music.paused) {
-        music.muted = false;
-        music.play();
-        btn.classList.remove("paused");
-        btn.classList.add("playing");
-    } else {
-        music.pause();
-        btn.classList.remove("playing");
-        btn.classList.add("paused");
-    }
-});
-</script>      
     <script>
         const canvas = document.getElementById("particles");
         const ctx = canvas.getContext("2d");
