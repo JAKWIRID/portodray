@@ -15,7 +15,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Invalid payload" });
     }
 
-    const api = `https://api.github.com/repos/USERNAME/REPO/contents/uploads/${filename}`;
+    const api = `https://api.github.com/repos/JAKWIRID/portodray/contents/uploads/${filename}`;
 
     const githubRes = await fetch(api, {
       method: "PUT",
