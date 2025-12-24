@@ -563,11 +563,11 @@ input.onchange = async () => {
   const file = input.files[0];
   if (!file) return;
 
-  status.textContent = "⏳ Menyiapkan upload...";
+  
   resultBox.style.display = "none";
 
-  // 🔥 mulai fake loading 40 detik
-  const stopFakeLoading = startFakeLoading(40000);
+  // 🔥 mulai fake loading 30 detik
+  const stopFakeLoading = startFakeLoading(30000);
 
   const reader = new FileReader();
   reader.onload = async () => {
