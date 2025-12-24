@@ -575,7 +575,7 @@ input.onchange = async () => {
       const base64 = reader.result.split(",")[1];
       const ext = file.name.split(".").pop().toLowerCase();
 
-      status.textContent = "🚀 Mengupload ke server...";
+      
 
       const res = await fetch("/api/upload", {
         method: "POST",
