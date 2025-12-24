@@ -503,7 +503,9 @@ nav {
     <button class="menu-button" id="selectMedia">📤 Upload Media</button>
 
     <div class="upload-status" id="uploadStatus">Pilih file (gambar / video)</div>
-
+<div id="upload-status" style="display:none; margin-top:10px; color:#a78bfa; font-size:14px;">
+  ⏳ Loading...
+</div>
     <div class="result-url" id="resultBox" style="display:none;">
       <input type="text" id="mediaUrl" readonly />
       <button class="copy-btn" id="copyUrl">📋 Copy</button>
@@ -563,6 +565,39 @@ copyBtn.onclick = () => {
   copyBtn.textContent = "✔ Copied";
   setTimeout(() => copyBtn.textContent = "📋 Copy", 1500);
 };
+
+    function startFakeLoading(duration = 40000) {
+  const status = document.getElementById("upload-status");
+  status.style.display = "block";
+
+  const messages = [
+    "⏳ Loading...",
+    "📦 Proses mengupload file...",
+    "⚙️ Menyiapkan data...",
+    "🚀 Mengirim ke server...",
+    "🔐 Mengamankan file...",
+    "✨ Hampir siap...",
+    "⏱️ Sedikit lagi...",
+    "✅ Finalisasi..."
+  ];
+
+  let index = 0;
+  status.textContent = messages[index];
+
+  const interval = setInterval(() => {
+    index = (index + 1) % messages.length;
+    status.textContent = messages[index];
+  }, 5000); // ganti teks tiap 5 detik
+
+  setTimeout(() => {
+    clearInterval(interval);
+  }, duration);
+
+  return () => {
+    clearInterval(interval);
+    status.style.display = "none";
+  };
+}
 </script>
     <script>
         const canvas = document.getElementById("particles");
