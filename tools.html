@@ -528,24 +528,34 @@ input.onchange = async () => {
   status.textContent = "⏳ Uploading...";
   resultBox.style.display = "none";
 
-  const formData = new FormData();
-  formData.append("file", file);
+  const reader = new FileReader();
 
-  const res = await fetch("/api/upload", {
-    method: "POST",
-    body: formData
-  });
+  reader.onload = async () => {
+    const base64 = reader.result.split(",")[1];
 
-  const data = await res.json();
+    const res = await fetch("/api/upload", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        filename: file.name,
+        content: base64
+      })
+    });
 
-  if (!data.url) {
-    status.textContent = "❌ Upload gagal";
-    return;
-  }
+    const data = await res.json();
 
-  status.textContent = "✅ Upload berhasil";
-  urlInput.value = data.url;
-  resultBox.style.display = "flex";
+    if (!data.success) {
+      status.textContent = "❌ Upload gagal";
+      console.log(data);
+      return;
+    }
+
+    status.textContent = "✅ Upload berhasil";
+    urlInput.value = data.data.content.download_url;
+    resultBox.style.display = "flex";
+  };
+
+  reader.readAsDataURL(file);
 };
 
 copyBtn.onclick = () => {
