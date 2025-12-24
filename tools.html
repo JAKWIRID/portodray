@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Dray</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">  
+<style>
+:root {
+    --accent1: #8b5cf6; /* ungu */
+    --accent2: #3b82f6; /* biru */
+    --accent: #8b5cf6;
+}
+
+@keyframes colorShift {
+    0%   { --accent: var(--accent1); }
+    50%  { --accent: var(--accent2); }
+    100% { --accent: var(--accent1); }
+}
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #000;
+    color: #fff;
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+}
+
+#particles {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none; /* 🔥 INI PENTING, BIAR GA NGAMBIL KLIK */
+  background: linear-gradient(135deg, #000000 0%, #111111 100%);
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+header {
+    text-align: center;
+    padding: 40px 20px 20px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px color-mix(in srgb, var(--accent), transparent 60%);
+    margin-bottom: 40px;
+    animation: fadeInUp 1s ease;
+}
+
+h1 {
+    margin: 0;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #7b5cff, #4facfe, #7b5cff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    animation: neonText 6s linear infinite, slideIn 1.5s ease;
+    margin-bottom: 20px;
+}
+
+@keyframes neonText {
+    0% { background-position: 0% center; }
+    50% { background-position: 100% center; }
+    100% { background-position: 0% center; }
+}
+
+nav {
+    padding-top: 20px;
+    border-top: 1px solid color-mix(in srgb, var(--accent), transparent 50%);
+}
+
+.menu-button {
+    background: var(--accent);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 15px;
+    cursor: pointer;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    box-shadow: 0 4px 15px color-mix(in srgb, var(--accent), transparent 40%);
+    transition: all 0.3s ease;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.menu-button:hover {
+    transform: translateY(-3px) scale(1.05);
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+}
+
+.download-section {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 20px;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 30px color-mix(in srgb, var(--accent), transparent 60%);
+}
+
+.download-section h2 {
+    color: var(--accent);
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+.download-link {
+    background: var(--accent);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+.download-link:hover {
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+}
+
+.loading-text {
+    color: var(--accent);
+    font-style: italic;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+    h1 { font-size: 2rem; }
+    .container { padding: 10px; }
+}
+
+@keyframes itemFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.download-item {
+    animation: itemFadeIn 0.6s ease forwards;
+}
+.download-item span {
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+ .download-meta {
+  font-size: 12px;
+  font-style: italic;
+  color: rgba(200, 200, 200, 0.65);
+  margin-top: 4px;
+}   
+/* === MUSIC BUTTON === */
+.music-btn {
+    position: fixed;
+    right: 15px;
+    bottom: 90px;
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #7f5cff, #3b82f6);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(127, 92, 255, 0.6);
+    z-index: 9999;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.music-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.8);
+}
+
+/* icon */
+.music-btn .icon {
+    font-size: 20px;
+    position: absolute;
+}
+
+/* equalizer */
+.music-btn .bars {
+    display: flex;
+    gap: 2px;
+    position: absolute;
+    bottom: 12px;
+}
+
+.music-btn .bars span {
+    width: 3px;
+    height: 8px;
+    background: #fff;
+    border-radius: 2px;
+    animation: equalizer 1s infinite ease-in-out;
+    opacity: 0;
+}
+
+/* animasi bar */
+.music-btn.playing .bars span {
+    opacity: 1;
+}
+
+.music-btn.playing .bars span:nth-child(1) { animation-delay: 0s; }
+.music-btn.playing .bars span:nth-child(2) { animation-delay: 0.15s; }
+.music-btn.playing .bars span:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes equalizer {
+    0% { height: 6px; }
+    50% { height: 16px; }
+    100% { height: 6px; }
+}
+
+/* pause state */
+.music-btn.paused .bars span {
+    animation: none;
+    opacity: 0;
+}    
+
+/* Warning text typing */
+.script-warning {
+    margin-top: 8px;
+    font-size: 13px;
+    font-style: italic;
+    color: rgba(170, 120, 255, 0.85);
+    letter-spacing: 0.4px;
+}
+
+/* Cursor */
+.script-warning::after {
+    content: "|";
+    margin-left: 4px;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0; }
+}   
+
+    .review-section {
+  margin-top: 25px;
+  padding: 15px;
+  border-radius: 14px;
+  background: rgba(0,0,0,.35);
+}
+
+.review-section h3 {
+  color: #9f7bff;
+  margin-bottom: 10px;
+}
+
+.review-form input,
+.review-form textarea {
+  width: 100%;
+  background: rgba(255,255,255,.1);
+  border: none;
+  padding: 10px;
+  margin-bottom: 8px;
+  color: #fff;
+  border-radius: 8px;
+  outline: none;
+}
+
+.review-form textarea {
+  resize: none;
+  height: 70px;
+}
+
+.stars {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.stars span {
+  cursor: pointer;
+  color: #555;
+  transition: .2s;
+}
+
+.stars span.active {
+  color: #a97cff;
+}
+
+.review-form button {
+  width: 100%;
+  background: linear-gradient(135deg,#7f5cff,#4a8bff);
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.review-item {
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(255,255,255,.08);
+}
+
+.review-item .name {
+  font-weight: bold;
+  color: #bfaaff;
+}
+
+.review-item .rating {
+  color: #ffd86b;
+}
+
+.review-section,
+.review-form,
+.stars,
+.review-form button,
+.review-form input,
+.review-form textarea {
+  position: relative;
+  z-index: 10;
+} 
+
+.review-item {
+  animation: reviewIn 0.6s ease;
+}
+
+@keyframes reviewIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+  .review-item {
+  position: relative;
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(10,10,10,0.85);
+  overflow: hidden;
+}
+
+/* NEON BORDER */
+.review-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(
+    270deg,
+    #7f5cff,
+    #4a8bff,
+    #ff4fd8,
+    #7f5cff
+  );
+  background-size: 400% 400%;
+  animation: neonMove 4s linear infinite;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* glow luar */
+.review-item::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: inherit;
+  background: linear-gradient(
+    270deg,
+    #7f5cff,
+    #4a8bff,
+    #ff4fd8,
+    #7f5cff
+  );
+  background-size: 400% 400%;
+  animation: neonMove 7s linear infinite;
+  filter: blur(18px);
+  opacity: .55;
+  z-index: -1;
+}  
+
+  @keyframes neonMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}  
+.site-footer {
+  width: 100%;
+  text-align: center;
+  font-size: 11px;          /* kecil */
+  margin: 25px 0 15px;
+  padding-top: 10px;
+  color: rgba(255,255,255,0.7); /* putih soft */
+
+  border-top: 1px solid rgba(255,255,255,0.25); /* garis putih tipis */
+}
+/* === FIX UKURAN FORM ULASAN === */
+.review-form input,
+.review-form textarea {
+  width: 100%;
+  box-sizing: border-box;   /* ⬅️ PENTING */
+  font-size: 14px;
+}
+
+/* samain tinggi visual */
+.review-form input {
+  height: 44px;
+}
+
+.review-form textarea {
+  min-height: 110px;
+  line-height: 1.5;
+}
+   
+  .upload-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.upload-status {
+  font-size: 13px;
+  color: rgba(200,200,255,.75);
+  font-style: italic;
+}
+
+.result-url {
+  display: flex;
+  gap: 8px;
+  animation: fadeInUp .5s ease;
+}
+
+.result-url input {
+  flex: 1;
+  background: rgba(255,255,255,.12);
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.copy-btn {
+  background: linear-gradient(135deg,#7f5cff,#4a8bff);
+  border: none;
+  padding: 0 14px;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+}  
+</style>
+</head>
+
+<body>
+    <div id="music-control" class="music-btn paused">
+    <span class="icon">🎵</span>
+    <div class="bars">
+        <span></span><span></span><span></span>
+    </div>
+</div>    
+    <canvas id="particles"></canvas>
+    <div class="container">
+        <header>
+            <h1 id="page-title">TOOLS DRAY</h1>
+
+            <nav>
+                <a href="index.html" class="menu-button">➥ Back Profile</a>
+            </nav>
+        </header>
+<div class="download-section" id="media-upload">
+  <h2>🖼 Media to URL</h2>
+
+  <div class="upload-box">
+    <input type="file" id="mediaInput" accept="image/*,video/*" hidden />
+    <button class="menu-button" id="selectMedia">📤 Upload Media</button>
+
+    <div class="upload-status" id="uploadStatus">Pilih file (gambar / video)</div>
+
+    <div class="result-url" id="resultBox" style="display:none;">
+      <input type="text" id="mediaUrl" readonly />
+      <button class="copy-btn" id="copyUrl">📋 Copy</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const input = document.getElementById("mediaInput");
+const selectBtn = document.getElementById("selectMedia");
+const status = document.getElementById("uploadStatus");
+const resultBox = document.getElementById("resultBox");
+const urlInput = document.getElementById("mediaUrl");
+const copyBtn = document.getElementById("copyUrl");
+
+selectBtn.onclick = () => input.click();
+
+input.onchange = async () => {
+  const file = input.files[0];
+  if (!file) return;
+
+  status.textContent = "⏳ Uploading...";
+  resultBox.style.display = "none";
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const res = await fetch("/api/upload", {
+    method: "POST",
+    body: formData
+  });
+
+  const data = await res.json();
+
+  if (!data.url) {
+    status.textContent = "❌ Upload gagal";
+    return;
+  }
+
+  status.textContent = "✅ Upload berhasil";
+  urlInput.value = data.url;
+  resultBox.style.display = "flex";
+};
+
+copyBtn.onclick = () => {
+  navigator.clipboard.writeText(urlInput.value);
+  copyBtn.textContent = "✔ Copied";
+  setTimeout(() => copyBtn.textContent = "📋 Copy", 1500);
+};
+</script>
+ 
+  <script>
+const music = document.getElementById("bg-music");
+const btn = document.getElementById("music-control");
+
+music.volume = 0.5;
+
+// autoplay muted
+window.addEventListener("load", () => {
+    music.play().catch(() => {});
+});
+
+// toggle play
+btn.addEventListener("click", () => {
+    if (music.paused) {
+        music.muted = false;
+        music.play();
+        btn.classList.remove("paused");
+        btn.classList.add("playing");
+    } else {
+        music.pause();
+        btn.classList.remove("playing");
+        btn.classList.add("paused");
+    }
+});
+</script>      
+    <script>
+        const canvas = document.getElementById("particles");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particlesArray;
+        let hue = 0;
+
+        class Particle {
+            constructor(x, y, size, speedX, speedY) {
+                this.x = x;
+                this.y = y;
+                this.size = size;
+                this.speedX = speedX;
+                this.speedY = speedY;
+                this.color = `hsl(${hue}, 100%, 60%)`;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+                this.color = `hsl(${hue}, 100%, 60%)`;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            particlesArray = [];
+            for (let i = 0; i < 120; i++) {
+                let size = Math.random() * 3 + 1;
+                let x = Math.random() * canvas.width;
+                let y = Math.random() * canvas.height;
+                let speedX = (Math.random() - 0.5) * 1.5;
+                let speedY = (Math.random() - 0.5) * 1.5;
+                particlesArray.push(new Particle(x, y, size, speedX, speedY));
+            }
+        }
+
+        function connectParticles() {
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let dx = particlesArray[a].x - particlesArray[b].x;
+                    let dy = particlesArray[a].y - particlesArray[b].y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 120) {
+                        ctx.strokeStyle = `hsla(${hue}, 100%, 60%, 0.2)`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            hue += 0.5;
+            particlesArray.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            connectParticles();
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+
+        window.addEventListener("resize", () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            init();
+        });
+    </script>
+
+   <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const text = "Versi lama mungkin sudah tidak bisa digunakan...";
+  const el = document.getElementById("typing-warning");
+
+  let i = 0;
+
+  function typeLoop() {
+    if (i < text.length) {
+      el.textContent += text.charAt(i);
+      i++;
+      setTimeout(typeLoop, 80);
+    } else {
+      setTimeout(() => {
+        el.textContent = "";
+        i = 0;
+        typeLoop();
+      }, 2000);
+    }
+  }
+
+  typeLoop();
+});
+   </script>
+    
+</body>
+</html>
