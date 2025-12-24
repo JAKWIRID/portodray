@@ -701,18 +701,18 @@ copyBtn.onclick = () => {
 };
 </script>
 <script>
-   const btn = document.getElementById("tiktokBtn");
-const input = document.getElementById("tiktokUrl");
-const status = document.getElementById("tiktokStatus");
-const preview = document.getElementById("tiktokPreview");
+async function downloadTikTok() {
+  const input = document.getElementById("tiktokUrl");
+  const status = document.getElementById("ttStatus");
+  const preview = document.getElementById("ttPreview");
 
-btn.onclick = async () => {
   if (!input.value) {
-    status.textContent = "⚠️ Masukkan link TikTok";
+    status.textContent = "⚠️ Masukkan link TikTok dulu";
     return;
   }
 
-  status.textContent = "⏳ Mengambil data TikTok...";
+  status.textContent = "⏳ Mengambil video TikTok...";
+  preview.style.display = "none";
   preview.innerHTML = "";
 
   try {
@@ -726,23 +726,24 @@ btn.onclick = async () => {
     if (!data.success) throw data;
 
     status.textContent = "✅ Video siap";
+    preview.style.display = "block";
 
     preview.innerHTML = `
       <video src="${data.video}" controls playsinline
-        style="width:100%;border-radius:14px;margin-top:10px"></video>
+        style="width:100%;border-radius:14px;margin-bottom:10px"></video>
 
-      <a href="${data.video}" download
+      <a href="${data.video}" target="_blank"
         class="menu-button"
-        style="margin-top:12px;display:inline-block">
+        style="display:inline-block">
         ⬇ Download Video
       </a>
     `;
   } catch (e) {
     console.error(e);
-    status.textContent = "❌ Gagal mengambil video";
+    status.textContent = "❌ Gagal mengambil video TikTok";
   }
-};
-</script>        
+}
+</script>
     <script>
         const canvas = document.getElementById("particles");
         const ctx = canvas.getContext("2d");
