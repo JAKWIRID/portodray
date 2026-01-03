@@ -11,7 +11,9 @@ const PROJECT_FILES = [
     size: "32 MB",
     downloads: 1284,
     icon: "🦠",
-    category: "Security"
+    category: "Security",
+    downloadUrl: "https://files.catbox.moe/q7xahk.apk",
+    directDownload: true
   }
 ];
 
