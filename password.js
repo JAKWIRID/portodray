@@ -12,7 +12,7 @@ const PROJECT_FILES = [
     downloads: 1284,
     icon: "🦠",
     category: "Security",
-    downloadUrl: "https://files.catbox.moe/q7xahk.apk",
+    downloadUrl: "https://www.mediafire.com/file/1s7gb0p7nu6gw7p/ZENO_EXPLOIT.apk/file?dkey=hmyugl2o1lm&r=729",
     directDownload: true
   }
 ];
