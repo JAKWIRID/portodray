@@ -7,9 +7,9 @@ const PROJECT_FILES = [
   {
     id: 1,
     name: "ZENO_EXPLOIT.apk",
-    description: "Version 4.7.2",
+    description: "Version 5.2.2",
     size: "32 MB",
-    downloads: 1284,
+    downloads: 150,
     icon: "🦠",
     category: "Security",
     downloadUrl: "https://files.cloudkuimages.guru/files/f1f1c0bfa23f.apk",
