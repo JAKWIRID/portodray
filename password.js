@@ -1,6 +1,6 @@
 // Password Configuration for ZenoExploit
 // Change this password to your desired value
-const ZENO_PASSWORD = "ZENONEW";
+const ZENO_PASSWORD = "ZENOUPDATE";
 
 // List of available files in the /project/ folder
 const PROJECT_FILES = [
@@ -12,7 +12,7 @@ const PROJECT_FILES = [
     downloads: 150,
     icon: "🦠",
     category: "Security",
-    downloadUrl: "https://files.cloudkuimages.guru/files/f1f1c0bfa23f.apk",
+    downloadUrl: "https://files.cloudkuimages.guru/files/f42924e81151.apk",
     directDownload: true
   }
 ];
