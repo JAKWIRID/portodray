@@ -6,7 +6,7 @@ const ZENO_PASSWORD = "ZENOUPDATE";
 const PROJECT_FILES = [
   {
     id: 1,
-    name: "ZENOEXPLOIT.apk",
+    name: "ZENO_EXPLOIT.apk",
     description: "Version 5.2.2",
     size: "20 MB",
     downloads: 150,
