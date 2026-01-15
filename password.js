@@ -12,7 +12,7 @@ const PROJECT_FILES = [
     downloads: 150,
     icon: "🦠",
     category: "Security",
-    downloadUrl: "https://files.cloudkuimages.guru/files/f42924e81151.apk",
+    downloadUrl: "https://files.cloudkuimages.guru/files/176d6c8cc7e5.apk",
     directDownload: true
   }
 ];
